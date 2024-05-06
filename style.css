@@ -1,0 +1,52 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background-color: black;
+  color: white;
+}
+h1 {
+  color: white;
+  text-align: center;
+  display: block;
+  margin-top: 5%;
+  margin-bottom: 10%;
+}
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
+  row-gap: 20px;
+}
+#score {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80%;
+}
+.commonScore {
+  margin: auto;
+  text-align: center;
+
+  font-size: 170%;
+}
+#myCanvas {
+  margin: auto;
+}
+
+@media only screen and (min-width: 600px) {
+  #container {
+    row-gap: 25px;
+  }
+  #score {
+    justify-content: center;
+    column-gap: 10%;
+  }
+  h1 {
+    margin-top: 2%;
+    margin-bottom: 3%;
+  }
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Tic-Tac-Toe</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="#" />
+  </head>
+  <body>
+    <div>
+      <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
+    </div>
+    <div id="container">
+      <canvas id="myCanvas" background-color="green"></canvas>
+      <div id="score">
+        <div id="player">
+          <div><p>PLAYER (X)</p></div>
+          <div class="commonScore" id="playerScore">0</div>
+        </div>
+        <div id="tie">
+          <div><p>TIE</p></div>
+          <div class="commonScore" id="tieScore">0</div>
+        </div>
+        <div id="computer">
+          <div><p>COMPUTER (O)</p></div>
+          <div class="commonScore" id="computerScore">0</div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="game_logic.js"></script>
+  <script src="game_board.js"></script>
+  <script src="sounds.js"></script>
+  <script src="script.js"></script>
+</html>
