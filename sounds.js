@@ -1,6 +1,6 @@
 class Sounds {
   moveSound() {
-    let moveSound = new Audio("sounds/move.mp3");
+    let moveSound = new Audio("sounds/move_2.mp3");
     moveSound.play();
   }
   captureSound() {
@@ -16,7 +16,7 @@ class Sounds {
     gameStartSound.play();
   }
   gameEndSound() {
-    let gameEndSound = new Audio("sounds/game-end.mp3");
+    let gameEndSound = new Audio("sounds/game-end_2.mp3");
     gameEndSound.play();
   }
 }
