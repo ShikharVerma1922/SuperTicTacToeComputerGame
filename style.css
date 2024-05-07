@@ -10,14 +10,13 @@ h1 {
   color: white;
   text-align: center;
   display: block;
-  margin-top: 5%;
+  margin-top: 30%;
   margin-bottom: 10%;
 }
 #container {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* align-items: center; */
   row-gap: 20px;
 }
 #score {
@@ -35,6 +34,13 @@ h1 {
 }
 #myCanvas {
   margin: auto;
+}
+#sound_button {
+  position: fixed;
+  top: 3%;
+  right: 3%;
+  background: none;
+  border: none;
 }
 
 @media only screen and (min-width: 600px) {
