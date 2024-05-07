@@ -240,19 +240,15 @@ class Game {
       return undefined;
     }
   }
+  currentLegalMoveForX(s, bigBoard, previousMove) {
+    let a = this.action(s, bigBoard, previousMove);
+    let tempList = new Array();
+    for (let ele of a) {
+      let l = ele.split(" ");
+      let i = parseInt(l[0]);
+      tempList.push(i);
+    }
+    return tempList;
+  }
 }
 
-// let s = [];
-// for (let i = 0; i < 9; i++) {
-//   s[i] = new Array(9).fill(999);
-// }
-// let bigBoard = [999, 999, 999, 999, 999, 999, 999, 999, 999];
-// s[1][1] = "X";
-// s[1][7] = "X";
-// s[5][1] = "X";
-// s[1][2] = "O";
-// s[1][8] = "O";
-// const g1 = new Game();
-// console.log("best move ", g1.bestMoveForO(s, bigBoard, 1));
-// console.log("s ", s);
-// console.log("big   board ", bigBoard);
