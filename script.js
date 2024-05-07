@@ -67,7 +67,8 @@ function doMouseDown(event) {
   if (
     currentMoveForX.includes(i) &&
     currentSmallBoardState[i][j] == 999 &&
-    !G1.terminalForBigBoard(currentBigBoardState, 999)
+    !G1.terminalForBigBoard(currentBigBoardState, 999) &&
+    !gameOver
   ) {
     currentSmallBoardState[i][j] = "X";
     G1.bigBoardStateUpdater(
@@ -76,7 +77,6 @@ function doMouseDown(event) {
       currentSmallBoardState,
       currentBigBoardState
     );
-    if (!gameOver) {
       GB.drawSmallMarks(currentSmallBoardState, "white");
       GB.drawX(
         GB.coordinatesOfEachCell[i][j][0],
@@ -85,7 +85,6 @@ function doMouseDown(event) {
       );
       SOUNDS.moveSound();
       GB.drawBigMarks(currentBigBoardState, "white");
-    }
     let bestMove = G1.bestMoveForO(
       currentSmallBoardState,
       currentBigBoardState,
@@ -100,20 +99,12 @@ function doMouseDown(event) {
         currentBigBoardState
       );
 
-      let a = G1.action(
+      
+      currentMoveForX = G1.currentLegalMoveForX(
         currentSmallBoardState,
         currentBigBoardState,
         bestMove[1]
       );
-      let tempList = new Array();
-      for (ele of a) {
-        l = ele.split(" ");
-        i = parseInt(l[0]);
-        tempList.push(i);
-      }
-      currentMoveForX = tempList;
-      console.log(currentBigBoardState);
-      if (!gameOver)
         setTimeout(function () {
           GB.drawSmallMarks(currentSmallBoardState, "white");
           GB.drawO(
@@ -123,7 +114,7 @@ function doMouseDown(event) {
           );
           SOUNDS.moveSound();
 
-          GB.highlightLegalMoves(tempList);
+          GB.highlightLegalMoves(currentMoveForX);
           GB.drawBigMarks(currentBigBoardState, "white");
         }, 500);
     }
