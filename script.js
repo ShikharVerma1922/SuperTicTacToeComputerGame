@@ -112,7 +112,7 @@ function doMouseDown(event) {
             GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][1],
             "red"
           );
-          SOUNDS.moveSound();
+          // SOUNDS.moveSound();
 
           GB.highlightLegalMoves(currentMoveForX);
           GB.drawBigMarks(currentBigBoardState, "white");
