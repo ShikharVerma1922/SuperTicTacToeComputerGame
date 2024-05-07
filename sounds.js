@@ -12,7 +12,7 @@ class Sounds {
     illegalSound.play();
   }
   gameStartSound() {
-    let gameStartSound = new Audio("sounds/game-start.mp3");
+    let gameStartSound = new Audio("sounds/notify (online-audio-converter.com).mp3");
     gameStartSound.play();
   }
   gameEndSound() {
