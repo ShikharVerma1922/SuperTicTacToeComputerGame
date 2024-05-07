@@ -8,6 +8,7 @@ let currentMoveForX = [0, 1, 2, 3, 4, 5, 6, 7, 8];
 let cd;
 let GB = undefined;
 let gameOver = false;
+let soundOpen = true;
 let playerScore = 0,
   tieScore = 0,
   computerScore = 0;
@@ -17,6 +18,8 @@ let playerScore = 0,
   playerScoreEle = document.getElementById("playerScore");
   tieScoreEle = document.getElementById("tieScore");
   computerScoreEle = document.getElementById("computerScore");
+  soundButton = document.getElementById("sound_button");
+  buttonImg = document.getElementById("button_img");
   ctx = canvas.getContext("2d");
   window.addEventListener("resize", resizeCanvas, false);
 
@@ -40,6 +43,17 @@ function resizeCanvas() {
 
 let G1 = new Game();
 let SOUNDS = new Sounds();
+
+soundButton.addEventListener("click", () => {
+  if (soundOpen) {
+    buttonImg.src = "images/sound-close.svg";
+    soundOpen = false;
+  } else {
+    buttonImg.src = "images/sound-open.svg";
+    soundOpen = true;
+  }
+});
+
 canvas.addEventListener("mousedown", doMouseDown);
 function doMouseDown(event) {
   G1.allNodeValues = {};
@@ -52,7 +66,7 @@ function doMouseDown(event) {
 
   //New Game
   if (gameOver) {
-    SOUNDS.gameStartSound();
+    if (soundOpen) SOUNDS.gameStartSound();
     currentSmallBoardState = [];
     for (let i = 0; i < 9; i++) {
       currentSmallBoardState[i] = new Array(9).fill(999);
@@ -83,7 +97,7 @@ function doMouseDown(event) {
         GB.coordinatesOfEachCell[i][j][1],
         "red"
       );
-      SOUNDS.moveSound();
+      if (soundOpen) SOUNDS.moveSound();
       GB.drawBigMarks(currentBigBoardState, "white");
     let bestMove = G1.bestMoveForO(
       currentSmallBoardState,
@@ -120,16 +134,18 @@ function doMouseDown(event) {
     }
   } //For Illegal Move
   else {
-    if (!gameOver) SOUNDS.illegalSound();
-    for (let i = 0; i < 3; i++) {
-      setTimeout(function () {
-        GB.drawBoard();
-        GB.drawBigMarks(currentBigBoardState, "white");
-      }, 100 + 200 * i);
-      setTimeout(function () {
-        GB.highlightLegalMoves(currentMoveForX);
-        GB.drawBigMarks(currentBigBoardState, "white");
-      }, 200 + 200 * i);
+    if (!gameOver){ 
+      if (soundOpen) SOUNDS.illegalSound();
+      for (let i = 0; i < 3; i++) {
+        setTimeout(function () {
+          GB.drawBoard();
+          GB.drawBigMarks(currentBigBoardState, "white");
+        }, 100 + 200 * i);
+        setTimeout(function () {
+          GB.highlightLegalMoves(currentMoveForX);
+          GB.drawBigMarks(currentBigBoardState, "white");
+        }, 200 + 200 * i);
+      }
     }
   }
 
@@ -140,7 +156,7 @@ function doMouseDown(event) {
     !G1.bestMoveForO(currentSmallBoardState, currentBigBoardState, j)
   ) {
     if (!gameOver) {
-      setTimeout(SOUNDS.gameEndSound(), 1000);
+      if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
       winningRow = G1.winningRow(currentBigBoardState);
       GB.drawSmallMarks(currentSmallBoardState, "grey");
       GB.drawBigMarks(currentBigBoardState, "grey");
