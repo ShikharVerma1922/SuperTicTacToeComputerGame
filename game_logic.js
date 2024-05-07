@@ -180,11 +180,9 @@ class Game {
     else return maxVal;
   }
   bigBoardStateUpdater(currentMove, mark, CSBS, CBBS) {
-    console.log(this.action(CSBS, CBBS, currentMove).length);
     if (this.terminal(CSBS, CBBS)) CBBS[currentMove] = mark;
     else if (this.action(CSBS, CBBS, currentMove).length == 0) {
       CBBS[currentMove] = "D";
-      console.log("YES D");
     }
   }
   winningRow(bigBoard) {
