@@ -114,7 +114,7 @@ class GameBoard {
         this.cd * 0.02,
         (this.cd / 3) * i,
         this.cd - this.cd * 0.02,
-        this.cd * 0.012,
+        this.cd * 0.01,
         "white",
         "square"
       );
@@ -124,7 +124,7 @@ class GameBoard {
         (this.cd / 3) * i,
         this.cd - this.cd * 0.02,
         (this.cd / 3) * i,
-        this.cd * 0.012,
+        this.cd * 0.01,
         "white",
         "square"
       );
@@ -347,7 +347,7 @@ class GameBoard {
         x + (this.cd / 9) * i,
         y + this.cd / 3 - this.cd * 0.02,
         this.cd * 0.005,
-        "red",
+        "#FF4545",
         "square"
       );
 
@@ -357,7 +357,7 @@ class GameBoard {
         x + this.cd / 3 - this.cd * 0.02,
         y + (this.cd / 9) * i,
         this.cd * 0.005,
-        "red",
+        "#FF4545",
         "square"
       );
     }
@@ -369,7 +369,7 @@ class GameBoard {
         this.cd * 0.02,
         (this.cd / 3) * i,
         this.cd - this.cd * 0.02,
-        this.cd * 0.012,
+        this.cd * 0.01,
         color,
         "square"
       );
@@ -379,7 +379,7 @@ class GameBoard {
         (this.cd / 3) * i,
         this.cd - this.cd * 0.02,
         (this.cd / 3) * i,
-        this.cd * 0.012,
+        this.cd * 0.01,
         color,
         "square"
       );
