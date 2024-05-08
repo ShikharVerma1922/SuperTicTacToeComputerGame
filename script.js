@@ -95,7 +95,7 @@ function doMouseDown(event) {
       GB.drawX(
         GB.coordinatesOfEachCell[i][j][0],
         GB.coordinatesOfEachCell[i][j][1],
-        "red"
+        "#FF4545"
       );
       if (soundOpen) SOUNDS.moveSound();
       GB.drawBigMarks(currentBigBoardState, "white");
@@ -124,7 +124,7 @@ function doMouseDown(event) {
           GB.drawO(
             GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][0],
             GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][1],
-            "red"
+            "#FF4545"
           );
           // SOUNDS.moveSound();
 
@@ -160,6 +160,10 @@ function doMouseDown(event) {
       winningRow = G1.winningRow(currentBigBoardState);
       GB.drawSmallMarks(currentSmallBoardState, "grey");
       GB.drawBigMarks(currentBigBoardState, "grey");
+      setTimeout(() => {
+        GB.drawSmallMarks(currentSmallBoardState, "grey");
+        GB.drawBigMarks(currentBigBoardState, "grey");
+      }, 500);
 
       if (winningRow) {
         if (G1.utility(currentBigBoardState) == 1) {
