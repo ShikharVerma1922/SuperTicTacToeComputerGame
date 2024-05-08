@@ -5,7 +5,7 @@ for (let i = 0; i < 9; i++) {
 }
 let currentBigBoardState = [999, 999, 999, 999, 999, 999, 999, 999, 999];
 let currentMoveForX = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-let cd;
+let cd,ctx;
 let GB = undefined;
 let gameOver = false;
 let soundOpen = true;
@@ -120,6 +120,8 @@ function doMouseDown(event) {
         bestMove[1]
       );
         setTimeout(function () {
+          ctx.fillStyle = "black";
+          ctx.fillRect(0, 0, cd, cd);
           GB.drawSmallMarks(currentSmallBoardState, "white");
           GB.drawO(
             GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][0],
