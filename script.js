@@ -7,8 +7,7 @@ let playerScore = 0,
   computerScore = 0;
 let depthLevel = 3;
 let gameBegin = false;
-
-/// Selecting elements DOM
+///
 let canvas = document.getElementById("myCanvas");
 let playerScoreEle = document.getElementById("playerScore");
 let tieScoreEle = document.getElementById("tieScore");
@@ -25,32 +24,12 @@ let winnerParent = document.getElementById("winner_parent");
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
-
-// Choose Difficulty level button function
 myFunction();
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-  illegalMoveMsg.classList.add("hidden");
-}
-  // Close the dropdown if the user clicks outside of it
-window.onclick = function (event) {
-  dropBtn.innerHTML = "CHANGE DIFFICULTY LEVEL";
-  if (!event.target.matches(".dropbtn")) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-        if (!gameBegin) illegalMoveMsg.classList.remove("hidden");
-      }
-    }
-  }
-};
 
-// resize canvas on changing window dimention
 window.addEventListener("resize", resizeCanvas, false);
+
 resizeCanvas();
+
 function resizeCanvas() {
   if (window.innerWidth < window.innerHeight) {
     cd = (window.innerWidth * 9) / 10;
@@ -67,7 +46,25 @@ function resizeCanvas() {
   if (gameOver) gameOverAnimantion();
 }
 
-// changing difficulty functions
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+  illegalMoveMsg.classList.add("hidden");
+}
+// Close the dropdown if the user clicks outside of it
+window.onclick = function (event) {
+  dropBtn.innerHTML = "CHANGE DIFFICULTY LEVEL";
+  if (!event.target.matches(".dropbtn")) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains("show")) {
+        openDropdown.classList.remove("show");
+        if (!gameBegin) illegalMoveMsg.classList.remove("hidden");
+      }
+    }
+  }
+};
 function easyFunc() {
   depthLevel = 1;
   level.innerHTML = "Easy";
@@ -81,7 +78,6 @@ function hardFunc() {
   level.innerHTML = "Hard";
 }
 
-//sound button functionality
 soundButton.addEventListener("click", () => {
   if (soundOpen) {
     buttonImg.src = "images/sound-close.svg";
@@ -92,7 +88,6 @@ soundButton.addEventListener("click", () => {
   }
 });
 
-//mouse down game functionality
 canvas.addEventListener("mousedown", doMouseDown);
 function doMouseDown(event) {
   G1.allNodeValues = {};
@@ -192,8 +187,9 @@ function doMouseDown(event) {
         GB.drawBigMarks(currentBigBoardState, "white");
       }, 500);
     }
-  } 
-    //For Illegal Move
+    // console.log(currentBigBoardState);
+    // console.log(currentSmallBoardState);
+  } //For Illegal Move
   else if (!gameOver) {
     if (soundOpen) SOUNDS.illegalSound();
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
@@ -246,7 +242,6 @@ function illegalMove() {
     }, 200 + 200 * i);
   }
 }
-
 function updateScore() {
   if (G1.utility(currentSmallBoardState, currentBigBoardState) == 1) {
     playerScore += 1;
@@ -275,7 +270,6 @@ function updateScore() {
   }
   return 0;
 }
-
 function gameOverAnimantion() {
   winningRow = G1.winningRow(currentBigBoardState);
   GB.highlightLegalMoves(currentMoveForX, "black");
@@ -332,7 +326,6 @@ function gameOverAnimantion() {
     }
   }
 }
-
 function gameInitialState() {
   currentSmallBoardState = [];
   for (let i = 0; i < 9; i++) {
