@@ -14,13 +14,14 @@ let tieScoreEle = document.getElementById("tieScore");
 let computerScoreEle = document.getElementById("computerScore");
 let soundButton = document.getElementById("sound_button");
 let buttonImg = document.getElementById("button_img");
-let level = document.getElementById("level");
+let diffText = document.getElementById("diff-text");
 let dropBtn = document.getElementById("dropbtnID");
 let currentDifficultyLevel = document.getElementById("difficulty-level");
 let illegalMoveMsg = document.getElementById("illegal_move");
 let winnerMsg = document.getElementById("winner");
 let winnerContainer = document.getElementById("winner_container");
 let winnerParent = document.getElementById("winner_parent");
+let resignBtn = document.getElementById("resign");
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
@@ -50,9 +51,54 @@ function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
   illegalMoveMsg.classList.add("hidden");
 }
+function resign() {
+  if (soundOpen) SOUNDS.gameStartSound();
+  illegalMoveMsg.classList.remove("hidden");
+  illegalMoveMsg.innerHTML = "Please make a move in any area";
+  winnerParent.classList.add("hidden");
+  winnerContainer.classList.remove("winner-container");
+  winnerParent.classList.remove("winner-parent");
+  setTimeout(() => {
+    winnerParent.classList.remove("hidden");
+    winnerMsg.innerHTML = "NEW GAME";
+    winnerContainer.classList.add("new-game-animation");
+    winnerParent.classList.add("new-game-parent");
+  }, 1);
+  setTimeout(() => {
+    winnerParent.classList.add("hidden");
+    winnerParent.classList.remove("new-game-parent");
+    winnerParent.classList.add("winner-parent");
+    winnerContainer.classList.remove("new-game-animation");
+    winnerContainer.classList.add("winner-container");
+  }, 3000);
+  gameBegin = false;
+  if (!gameBegin) {
+    if (dropBtn.classList.contains("hidden")) {
+      dropBtn.classList.remove("hidden");
+      diffText.classList.remove("hidden");
+      resignBtn.classList.add("hidden");
+      currentDifficultyLevel.classList.add("hidden");
+    }
+  } else {
+    dropBtn.classList.add("hidden");
+    diffText.classList.add("hidden");
+    resignBtn.classList.remove("hidden");
+    currentDifficultyLevel.classList.remove("hidden");
+  }
+  computerScore += 1;
+  computerScoreEle.innerText = `${computerScore}`;
+  computerScoreEle.classList.add("hidden");
+  setTimeout(() => {
+    computerScoreEle.classList.remove("hidden");
+    computerScoreEle.classList.add("w3-container");
+    computerScoreEle.classList.add("w3-center");
+    computerScoreEle.classList.add("w3-animate-zoom");
+  });
+  gameInitialState();
+}
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
-  dropBtn.innerHTML = "CHANGE DIFFICULTY LEVEL";
+  // dropBtn.innerHTML = "MEDIUM";
   if (!event.target.matches(".dropbtn")) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -67,15 +113,18 @@ window.onclick = function (event) {
 };
 function easyFunc() {
   depthLevel = 1;
-  level.innerHTML = "Easy";
+  currentDifficultyLevel.innerHTML = "Difficulty Level - EASY";
+  dropBtn.innerHTML = "EASY";
 }
 function mediumFunc() {
   depthLevel = 2;
-  level.innerHTML = "Medium";
+  currentDifficultyLevel.innerHTML = "DIFFICULTY LEVEL - Medium";
+  dropBtn.innerHTML = "MEDIUM";
 }
 function hardFunc() {
   depthLevel = 4;
-  level.innerHTML = "Hard";
+  currentDifficultyLevel.innerHTML = "DIFFICULTY LEVEL - Hard";
+  dropBtn.innerHTML = "HARD";
 }
 
 soundButton.addEventListener("click", () => {
@@ -102,14 +151,33 @@ function doMouseDown(event) {
     if (soundOpen) SOUNDS.gameStartSound();
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
+    winnerContainer.classList.remove("winner-container");
+    winnerParent.classList.remove("winner-parent");
+    setTimeout(() => {
+      winnerParent.classList.remove("hidden");
+      winnerMsg.innerHTML = "NEW GAME";
+      winnerContainer.classList.add("new-game-animation");
+      winnerParent.classList.add("new-game-parent");
+    }, 1);
+    setTimeout(() => {
+      winnerParent.classList.add("hidden");
+      winnerParent.classList.remove("new-game-parent");
+      winnerParent.classList.add("winner-parent");
+      winnerContainer.classList.remove("new-game-animation");
+      winnerContainer.classList.add("winner-container");
+    }, 3000);
     gameBegin = false;
     if (!gameBegin) {
       if (dropBtn.classList.contains("hidden")) {
         dropBtn.classList.remove("hidden");
+        diffText.classList.remove("hidden");
+        resignBtn.classList.add("hidden");
         currentDifficultyLevel.classList.add("hidden");
       }
     } else {
       dropBtn.classList.add("hidden");
+      diffText.classList.add("hidden");
+      resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
     }
     gameInitialState();
@@ -127,10 +195,14 @@ function doMouseDown(event) {
     if (!gameBegin) {
       if (dropBtn.classList.contains("hidden")) {
         dropBtn.classList.remove("hidden");
+        diffText.classList.remove("hidden");
+        resignBtn.classList.add("hidden");
         currentDifficultyLevel.classList.add("hidden");
       }
     } else {
       dropBtn.classList.add("hidden");
+      diffText.classList.add("hidden");
+      resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
     }
     currentSmallBoardState[i][j] = "X";
@@ -207,13 +279,14 @@ function doMouseDown(event) {
     (!gameOver &&
       G1.terminalForBigBoard(currentBigBoardState, 999) &&
       G1.terminalForBigBoard(currentBigBoardState, "D")) ||
-    !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
+    !G1.bestMoveForO(currentSmallBoardState, currentBigBoardState, j) ||
     !G1.isAnyBlockEmpty(currentBigBoardState)
   ) {
     if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
     updateScore();
     gameOverAnimantion();
     illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
+    resignBtn.classList.add("hidden");
     if (illegalMoveMsg.classList.contains("hidden"))
       illegalMoveMsg.classList.remove("hidden");
     let winner = "GAME DRAW";
@@ -250,7 +323,9 @@ function updateScore() {
     playerScoreEle.classList.add("hidden");
     setTimeout(() => {
       playerScoreEle.classList.remove("hidden");
-      playerScoreEle.classList.add("w3-container w3-center w3-animate-zoom");
+      playerScoreEle.classList.add("w3-container");
+      playerScoreEle.classList.add("w3-center");
+      playerScoreEle.classList.add("w3-animate-zoom");
     });
   } else if (G1.utility(currentSmallBoardState, currentBigBoardState) == -1) {
     computerScore += 1;
@@ -258,7 +333,9 @@ function updateScore() {
     computerScoreEle.classList.add("hidden");
     setTimeout(() => {
       computerScoreEle.classList.remove("hidden");
-      computerScoreEle.classList.add("w3-container w3-center w3-animate-zoom");
+      computerScoreEle.classList.add("w3-container");
+      computerScoreEle.classList.add("w3-center");
+      computerScoreEle.classList.add("w3-animate-zoom");
     });
   } else {
     tieScore += 1;
@@ -266,7 +343,9 @@ function updateScore() {
     tieScoreEle.classList.add("hidden");
     setTimeout(() => {
       tieScoreEle.classList.remove("hidden");
-      tieScoreEle.classList.add("w3-container w3-center w3-animate-zoom");
+      tieScoreEle.classList.add("w3-container");
+      tieScoreEle.classList.add("w3-center");
+      tieScoreEle.classList.add("w3-animate-zoom");
     });
   }
   return 0;
