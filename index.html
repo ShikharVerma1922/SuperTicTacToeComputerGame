@@ -10,29 +10,79 @@
       href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/x-icon" href="images/game.svg" />
+    <link rel="icon" type="image/x-icon" href="images/game_1.svg" />
   </head>
   <body>
-    <div>
-      <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
-    </div>
     <div id="container">
-      <canvas id="myCanvas" background-color="green"></canvas>
-      <div id="score">
-        <div id="player">
-          <div><p>PLAYER (X)</p></div>
-          <div class="commonScore" id="playerScore">0</div>
+      <div id="container_2">
+        <div>
+          <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
         </div>
-        <div id="tie">
-          <div><p>TIE</p></div>
-          <div class="commonScore" id="tieScore">0</div>
+        <div id="canvas_div">
+          <canvas id="myCanvas" background-color="green"></canvas>
+          <div id="winner_parent" class="hidden">
+            <div id="winner_container">
+              <p id="winner">WINNER</p>
+            </div>
+          </div>
         </div>
-        <div id="computer">
-          <div><p>COMPUTER (O)</p></div>
-          <div class="commonScore" id="computerScore">0</div>
+        <div id="score">
+          <div id="player">
+            <div><p>PLAYER (X)</p></div>
+            <div
+              class="commonScore w3-container w3-center w3-animate-zoom"
+              id="playerScore"
+            >
+              0
+            </div>
+          </div>
+          <div id="tie">
+            <div><p>TIE</p></div>
+            <div
+              class="commonScore w3-container w3-center w3-animate-zoom"
+              id="tieScore"
+            >
+              0
+            </div>
+          </div>
+          <div id="computer">
+            <div><p>COMPUTER (O)</p></div>
+            <div
+              class="commonScore w3-container w3-center w3-animate-zoom"
+              id="computerScore"
+            >
+              0
+            </div>
+          </div>
         </div>
       </div>
+      <div id="container_3">
+        <div id="difficulty-level" class="hidden">
+          <p>DIFFICULTY LEVEL</p>
+        </div>
+
+        <div class="dropdown">
+          <button onclick="myFunction()" class="dropbtn" id="dropbtnID">
+            CHOOSE DIFFICULTY LEVEL
+          </button>
+          <div id="myDropdown" class="dropdown-content">
+            <button onclick="easyFunc()" id="easy_btn">Easy</button>
+            <button onclick="mediumFunc()" id="medium_btn">Medium</button>
+            <button onclick="hardFunc()" id="hard_btn">Hard</button>
+          </div>
+        </div>
+        <div>
+          <p id="level">Medium</p>
+        </div>
+      </div>
+    </div>
+    <div
+      id="illegal_move"
+      class="hidden w3-container w3-center w3-animate-bottom"
+    >
+      Please make a move in any area
     </div>
     <div>
       <button id="sound_button">
@@ -43,10 +93,11 @@
           width="30"
         />
       </button>
-    </div>  
+    </div>
   </body>
+  <script src="sounds.js"></script>
   <script src="game_logic.js"></script>
   <script src="game_board.js"></script>
-  <script src="sounds.js"></script>
   <script src="script.js"></script>
 </html>
+
