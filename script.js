@@ -265,6 +265,7 @@ function doMouseDown(event) {
   } //For Illegal Move
   else if (!gameOver) {
     if (soundOpen) SOUNDS.illegalSound();
+    navigator.vibrate(200);
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
     illegalMoveMsg.classList.remove("hidden");
     illegalMoveMsg.classList.add("fade-out-animation");
