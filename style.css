@@ -1,27 +1,93 @@
+@keyframes line-animation {
+  0% {
+    transform: scaleX(0);
+  }
+  15% {
+    transform: scaleX(0);
+  }
+  20%,
+  25% {
+    transform: scaleX(1);
+    top: calc(100% - 2px);
+  }
+  50% {
+    transform: scaleX(1);
+    top: 0px;
+  }
+  70% {
+    transform: scaleX(0);
+    top: 0px;
+  }
+  80%,
+  100% {
+    transform: scaleX(0);
+    top: 0px;
+  }
+}
+
+@keyframes clip-path-reveal-1 {
+  0%,
+  25% {
+    clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0% 100%);
+  }
+  50% {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+  }
+}
+@keyframes fadeInAnimation {
+  0% {
+    margin-top: 100%;
+    height: 300%;
+    opacity: 1;
+  }
+  16% {
+    margin-top: 0%;
+    height: 100%;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.fade-out-animation {
+  animation: fadeInAnimation 3000ms ease;
+}
+
 * {
   margin: 0;
   padding: 0;
 }
 body {
-  background-color: black;
+  background-color: #212121;
   color: white;
 }
 h1 {
   color: white;
   text-align: center;
   display: block;
-  margin-top: 23%;
-  margin-bottom: 7%;
+  margin-top: 15%;
+  margin-bottom: 6%;
 }
 #container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  row-gap: 20px;
+}
+#container_3 {
+  text-align: center;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 0;
 }
 #score {
-  margin-top: 10%;
+  margin: 7%;
   display: flex;
+  text-align: center;
   flex-direction: row;
   justify-content: space-evenly;
   font-family: Arial, Helvetica, sans-serif;
@@ -36,6 +102,48 @@ h1 {
 #myCanvas {
   margin: auto;
 }
+
+#canvas_div {
+  position: relative;
+  text-align: center;
+}
+#winner_parent {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+  border-color: white;
+  border-style: solid;
+  box-shadow: 0px 0px 20px 0px rgb(255, 254, 254);
+  padding: 5px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+#winner_container {
+  position: relative;
+
+  &:before {
+    content: "";
+    position: absolute;
+    top: calc(100% - 2px);
+    width: 100%;
+    height: 4px;
+    background-color: #cf0000;
+    transform-origin: center center;
+    left: 0%;
+    transform: scaleX(0);
+
+    animation: line-animation 1500ms ease;
+  }
+
+  #winner {
+    font: bolder 200% "Raleway";
+    color: cyan;
+    animation: clip-path-reveal-1 1500ms ease;
+  }
+}
 #sound_button {
   position: fixed;
   top: 3%;
@@ -43,18 +151,123 @@ h1 {
   background: none;
   border: none;
 }
+#difficulty-level,
+#level {
+  margin: 0;
+  position: relative;
+  z-index: 0;
+  bottom: 0;
+  font-family: Raleway;
+  text-align: center;
+  padding: 10px;
+  font-size: 90%;
+  font-weight: bold;
+}
+.dropbtn {
+  background-color: cyan;
+  width: 90%;
+  color: black;
+  padding: 10px;
+  font-size: 90%;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
 
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: aquamarine;
+  color: black;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  width: 90%;
+  z-index: 3;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  background-color: #212121;
+  width: 60%;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(255, 254, 254, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content button {
+  width: 100%;
+  background-color: #212121;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-color: red;
+  color: white;
+  padding: 5px 16px;
+  font-size: 90%;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content button:hover {
+  color: black;
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+
+#illegal_move {
+  position: relative;
+  width: 90%;
+  color: rgb(231, 75, 75);
+  font-family: Raleway;
+  font-size: 100%;
+  padding: 10px;
+  font-weight: bold;
+  text-align: center;
+  left: 50%;
+  transform: translate(-50%);
+  box-shadow: 0px 0px 10px 0px rgba(255, 255, 255, 0.2);
+}
+.hidden {
+  display: none !important;
+}
 @media only screen and (min-width: 600px) {
   #container {
-    row-gap: 25px;
+    position: relative;
+    flex-direction: row;
+    column-gap: 3px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10%;
+    margin-right: 10%;
   }
+  #container_3 {
+    position: relative;
+    width: 90%;
+    align-items: center;
+  }
+  #illegal_move {
+    position: relative;
+    width: max-content;
+  }
+
   #score {
     justify-content: center;
     column-gap: 10%;
     margin-top: 0;
+    margin: 0;
   }
   h1 {
     margin-top: 2%;
     margin-bottom: 3%;
   }
 }
+
