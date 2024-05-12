@@ -1,4 +1,5 @@
 // initializing the board
+
 let cd;
 let GB, G1, SOUNDS;
 let soundOpen = true;
