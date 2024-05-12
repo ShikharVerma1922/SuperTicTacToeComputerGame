@@ -346,7 +346,3 @@ function gameInitialState() {
   SOUNDS = new Sounds();
 }
 
-    }
-    gameOver = true;
-  }
-}
