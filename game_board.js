@@ -17,7 +17,6 @@ class GameBoard {
     ];
     this.drawBoard();
   }
-
   drawSmallMarks(s, color) {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
@@ -111,57 +110,75 @@ class GameBoard {
     for (let i = 1; i <= 2; i++) {
       this.drawLine(
         (this.cd / 3) * i,
-        this.cd * 0.02,
+        0,
         (this.cd / 3) * i,
-        this.cd - this.cd * 0.02,
-        this.cd * 0.01,
-        "white",
+        this.cd,
+        this.cd * 0.012,
+        "cyan",
         "square"
       );
 
       this.drawLine(
-        this.cd * 0.02,
+        // this.cd * 0.02,
+        0,
         (this.cd / 3) * i,
-        this.cd - this.cd * 0.02,
+        this.cd,
         (this.cd / 3) * i,
-        this.cd * 0.01,
-        "white",
+        this.cd * 0.012,
+        "cyan",
         "square"
       );
     }
   }
   drawX(x, y, color) {
     this.ctx.beginPath();
+    ctx.fillStyle = "#FF4545";
+    ctx.fillRect(
+      x + this.cd * 0.01,
+      y + this.cd * 0.01,
+      this.cd / 9 - this.cd * 0.02,
+      this.cd / 9 - this.cd * 0.02
+    );
+    this.ctx.beginPath();
     this.drawLine(
-      x + this.cd * 0.02,
-      y + this.cd * 0.02,
-      x + this.cd / 9 - this.cd * 0.02,
-      y + this.cd / 9 - this.cd * 0.02,
-      this.cd * 0.015,
+      x + this.cd * 0.035,
+      y + this.cd * 0.025,
+      x + this.cd / 9 - this.cd * 0.035,
+      y + this.cd / 9 - this.cd * 0.025,
+      this.cd * 0.008,
       color,
       "butt"
     );
     this.drawLine(
-      x + this.cd / 9 - this.cd * 0.02,
-      y + this.cd * 0.02,
-      x + this.cd * 0.02,
-      y + this.cd / 9 - this.cd * 0.02,
-      this.cd * 0.015,
+      x + this.cd / 9 - this.cd * 0.035,
+      y + this.cd * 0.025,
+      x + this.cd * 0.035,
+      y + this.cd / 9 - this.cd * 0.025,
+      this.cd * 0.008,
       color,
       "butt"
     );
   }
   drawO(x, y, color) {
     this.ctx.beginPath();
+    ctx.fillStyle = "#2AAA8A";
+    ctx.fillRect(
+      x + this.cd * 0.01,
+      y + this.cd * 0.01,
+      this.cd / 9 - this.cd * 0.02,
+      this.cd / 9 - this.cd * 0.02
+    );
+    this.ctx.beginPath();
     this.ctx.arc(
       x + this.cd / 18,
       y + this.cd / 18,
-      this.cd / 18 - this.cd * 0.015,
+      this.cd / 18 - this.cd * 0.02,
       0,
       2 * Math.PI
     );
     this.ctx.fillStyle = color;
     this.ctx.fill();
+    this.ctx.webkitImageSmoothingEnabled = true;
     this.ctx.beginPath();
     this.ctx.arc(
       x + this.cd / 18,
@@ -170,7 +187,7 @@ class GameBoard {
       0,
       2 * Math.PI
     );
-    this.ctx.fillStyle = "black";
+    this.ctx.fillStyle = "#2AAA8A";
     this.ctx.fill();
   }
   drawBigX(x, y, color) {
@@ -331,15 +348,23 @@ class GameBoard {
     }
     return [row, column];
   }
-  highlightLegalMoves(cmfx) {
+  highlightLegalMoves(cmfx, color) {
     this.drawBoard();
     for (let ele of cmfx) {
       let p = this.coordinatesOfEachBlock()[ele][0];
       let q = this.coordinatesOfEachBlock()[ele][1];
-      this.highlightOneBoard(p, q);
+      this.highlightOneBoard(p, q, color);
     }
   }
-  highlightOneBoard(x, y) {
+  highlightOneBoard(x, y, color) {
+    this.ctx.beginPath();
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(
+      x + this.cd * 0.005,
+      y + this.cd * 0.005,
+      this.cd / 3 - this.cd * 0.01,
+      this.cd / 3 - this.cd * 0.01
+    );
     for (let i = 1; i <= 2; i++) {
       this.drawLine(
         x + (this.cd / 9) * i,
@@ -347,7 +372,7 @@ class GameBoard {
         x + (this.cd / 9) * i,
         y + this.cd / 3 - this.cd * 0.02,
         this.cd * 0.005,
-        "#FF4545",
+        "white",
         "square"
       );
 
@@ -357,7 +382,7 @@ class GameBoard {
         x + this.cd / 3 - this.cd * 0.02,
         y + (this.cd / 9) * i,
         this.cd * 0.005,
-        "#FF4545",
+        "white",
         "square"
       );
     }
@@ -386,3 +411,4 @@ class GameBoard {
     }
   }
 }
+
