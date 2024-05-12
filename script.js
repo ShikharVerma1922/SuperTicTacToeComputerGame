@@ -207,7 +207,7 @@ function doMouseDown(event) {
     (!gameOver &&
       G1.terminalForBigBoard(currentBigBoardState, 999) &&
       G1.terminalForBigBoard(currentBigBoardState, "D")) ||
-    !G1.bestMoveForO(currentSmallBoardState, currentBigBoardState, j)
+    !G1.action(currentSmallBoardState, currentBigBoardState, j)
   ) {
     if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
     updateScore();
