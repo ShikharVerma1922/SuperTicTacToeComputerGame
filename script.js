@@ -1,5 +1,4 @@
 // initializing the board
-
 let cd;
 let GB, G1, SOUNDS;
 let soundOpen = true;
@@ -53,8 +52,10 @@ function myFunction() {
   illegalMoveMsg.classList.add("hidden");
 }
 function resign() {
-  if (soundOpen) SOUNDS.gameStartSound();
+  if (soundOpen) {
+  SOUNDS.gameStartSound();
   navigator.vibrate(100);
+  }
   illegalMoveMsg.classList.remove("hidden");
   illegalMoveMsg.innerHTML = "Please make a move in any area";
   winnerParent.classList.add("hidden");
@@ -117,19 +118,19 @@ function easyFunc() {
   depthLevel = 1;
   currentDifficultyLevel.innerHTML = "Difficulty Level - EASY";
   dropBtn.innerHTML = "EASY";
-  SOUNDS.clickSound();
+  if (soundOpen) SOUNDS.clickSound();
 }
 function mediumFunc() {
   depthLevel = 2;
   currentDifficultyLevel.innerHTML = "Difficulty Level - MEDIUM";
   dropBtn.innerHTML = "MEDIUM";
-  SOUNDS.clickSound();
+ if (soundOpen) SOUNDS.clickSound();
 }
 function hardFunc() {
   depthLevel = 4;
   currentDifficultyLevel.innerHTML = "Difficulty Level - HARD";
   dropBtn.innerHTML = "HARD";
-  SOUNDS.clickSound();
+  if (soundOpen) SOUNDS.clickSound();
 }
 
 soundButton.addEventListener("click", () => {
@@ -153,8 +154,10 @@ function doMouseDown(event) {
 
   //New Game Set Up
   if (gameOver) {
+    if (soundOpen) {
+    SOUNDS.gameStartSound();
     navigator.vibrate(100);
-    if (soundOpen) SOUNDS.gameStartSound();
+    }
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
     winnerContainer.classList.remove("winner-container");
