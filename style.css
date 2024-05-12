@@ -63,8 +63,19 @@
     opacity: 0;
   }
 }
+@keyframes animate-bottom {
+  0% {
+    bottom: 0%;
+  }
+  100% {
+    bottom: 6%;
+  }
+}
 .fade-out-animation {
   animation: fadeInAnimation 3000ms ease;
+}
+.animate-notify {
+  animation: animate-bottom 1000ms ease;
 }
 .new-game-animation {
   position: relative;
