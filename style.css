@@ -82,7 +82,7 @@
   animation: fadeInAnimation 3000ms ease;
 }
 .animate-notify {
-  animation: animate-bottom 1000ms ease;
+  animation: animate-bottom 3000ms ease;
 }
 .new-game-animation {
   position: relative;
