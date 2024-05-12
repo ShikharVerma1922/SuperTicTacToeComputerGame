@@ -2,55 +2,31 @@ class Game {
   constructor() {
     this.allNodeValues = {};
   }
-  bestMoveForO(s, bigBoard, previousMoveCell) {
-    if (!this.action(s, bigBoard, previousMoveCell)) {
-      return 0;
+  bestMoveForMiniMax(csbs, cbbs, pmc_j, depth, maximizingPlayer) {
+    if (!this.action(csbs, cbbs, pmc_j)) return undefined;
+    let bestMoves = [];
+    let minimaxValue = this.minimax(
+      csbs,
+      csbs,
+      cbbs,
+      cbbs,
+      pmc_j,
+      depth,
+      depth,
+      maximizingPlayer,
+      -99,
+      99
+    );
+    let bestScore = minimaxValue[0];
+    let allChildValues = minimaxValue[1];
+    for (let ele in allChildValues) {
+      if (allChildValues[ele] == bestScore) bestMoves.push(ele);
     }
-    let best_val = this.minimumValue(s, bigBoard, previousMoveCell);
-    let allBestMoves = [];
-    for (let ele in this.allNodeValues) {
-      let result = structuredClone(s);
-      let l = ele.split(" ");
-      let i = parseInt(l[0]);
-      let j = parseInt(l[1]);
-      result[i][j] = "O";
-      if (
-        this.allNodeValues[ele] == best_val &&
-        this.terminal(result, bigBoard)
-      ) {
-        let best_move = [i, j];
-        allBestMoves.push(best_move);
-      }
+    if (bestMoves.length != 0) {
+      let bestMove = bestMoves[Math.floor(Math.random() * bestMoves.length)];
+      let l = bestMove.split(" ");
+      return [parseInt(l[0]), parseInt(l[1])];
     }
-    if (allBestMoves.length != 0)
-      return allBestMoves[Math.floor(Math.random() * allBestMoves.length)];
-    for (let ele in this.allNodeValues) {
-      let result = structuredClone(s);
-      let l = ele.split(" ");
-      let i = parseInt(l[0]);
-      let j = parseInt(l[1]);
-      result[i][j] = "X";
-      if (
-        this.allNodeValues[ele] == best_val &&
-        this.terminal(result, bigBoard)
-      ) {
-        let best_move = [i, j];
-        allBestMoves.push(best_move);
-      }
-    }
-    if (allBestMoves.length != 0)
-      return allBestMoves[Math.floor(Math.random() * allBestMoves.length)];
-    for (let ele in this.allNodeValues) {
-      let l = ele.split(" ");
-      let i = parseInt(l[0]);
-      let j = parseInt(l[1]);
-      if (this.allNodeValues[ele] == best_val) {
-        let best_move = [i, j];
-        allBestMoves.push(best_move);
-      }
-    }
-    if (allBestMoves.length != 0)
-      return allBestMoves[Math.floor(Math.random() * allBestMoves.length)];
   }
   player(s) {
     let total_X = 0;
@@ -83,13 +59,12 @@ class Game {
     }
     return a;
   }
-  result(s, a) {
+  result(s, a, maximizingPlayer) {
     let r = structuredClone(s);
     let l = a.split(" ");
     let i = parseInt(l[0]);
     let j = parseInt(l[1]);
-    // r[i] = [];
-    if (this.player(s) == "X") r[i][j] = "X";
+    if (maximizingPlayer) r[i][j] = "X";
     else r[i][j] = "O";
     return r;
   }
@@ -112,9 +87,10 @@ class Game {
     }
     return 0;
   }
-  utility(s) {
-    if (this.player(s) == "O" && this.terminalForBigBoard(s, "D")) return 1;
-    else if (this.player(s) == "X" && this.terminalForBigBoard(s, "D"))
+  utility(s, bigBoard) {
+    if (this.player(s) == "O" && this.terminalForBigBoard(bigBoard, "D"))
+      return 1;
+    else if (this.player(s) == "X" && this.terminalForBigBoard(bigBoard, "D"))
       return -1;
     else if (!this.terminalForBigBoard(s, "D")) return 0;
   }
@@ -148,36 +124,153 @@ class Game {
       return 1;
     else return 0;
   }
-  minimumValue(s, bigBoard, previousMoveCell) {
-    let v = 99;
-    for (let act of this.action(s, bigBoard, previousMoveCell)) {
-      let result = this.result(s, act);
-      let l = act.split(" ");
-      let currentCellMove = parseInt(l[1]);
-      let val = this.maximumValue(result, bigBoard, currentCellMove);
-      this.allNodeValues[act] = val;
-      if (val < v) v = val;
+  minimax(
+    updated_s,
+    actual_s,
+    updatedBigBoard,
+    actualBigBoard,
+    previousMoveCell_j,
+    updatedDepth,
+    actualDepth,
+    maximizingPlayer,
+    alpha,
+    beta
+  ) {
+    if (
+      updatedDepth == 0 ||
+      (this.terminalForBigBoard(updatedBigBoard, 999) &&
+        this.terminalForBigBoard(updatedBigBoard, "D")) ||
+      !this.action(updated_s, updatedBigBoard, previousMoveCell_j)
+    ) {
+      return [this.evaluation(updatedBigBoard, maximizingPlayer), undefined];
     }
-    return v;
-  }
-  maximumValue(s, bigBoard, previousMoveCell) {
-    let maxVal = -99;
-    for (let act of this.action(s, bigBoard, previousMoveCell)) {
-      let bigBoardCopy = structuredClone(bigBoard);
-      let result = this.result(s, act);
-      if (this.terminal(result, bigBoard)) {
+
+    let bestMove = {};
+
+    if (maximizingPlayer) {
+      let max_val = -99;
+      for (let act of this.action(
+        updated_s,
+        updatedBigBoard,
+        previousMoveCell_j
+      )) {
         let l = act.split(" ");
-        let i = parseInt(l[0]);
-        bigBoardCopy[i] = "X";
-        if (this.terminalForBigBoard(bigBoardCopy, 999)) {
-          if (1 > maxVal) maxVal = 1;
-        } else {
-          if (0 > maxVal) maxVal = 0;
+        let currentCellMove_i = parseInt(l[0]);
+        let currentCellMove_j = parseInt(l[1]);
+        let result_s = this.result(updated_s, act, maximizingPlayer);
+        let result_bigB = this.updatedBigBoardFunc(
+          result_s,
+          updatedBigBoard,
+          currentCellMove_i,
+          maximizingPlayer
+        );
+        let v = this.minimax(
+          result_s,
+          actual_s,
+          result_bigB,
+          actualBigBoard,
+          currentCellMove_j,
+          updatedDepth - 1,
+          actualDepth,
+          false,
+          alpha,
+          beta
+        )[0];
+        if (updatedDepth >= actualDepth - 1 && (v == 0 || v == -5 || v == -3)) {
+          if (this.terminal(result_s, updatedBigBoard)) v = 5;
+          else if (v != -5 && actualDepth > 1) {
+            let result_sForOpponent = this.result(
+              updated_s,
+              act,
+              !maximizingPlayer
+            );
+            if (this.terminal(result_sForOpponent, updatedBigBoard)) v = 3;
+          }
+        }
+        if (updatedDepth == actualDepth) bestMove[act] = v;
+        if (v > max_val) {
+          max_val = v;
+        }
+        if (updatedDepth < actualDepth - 1) {
+          if (v > alpha) alpha = v;
+          if (beta <= alpha) break;
         }
       }
+      return [max_val, bestMove];
+    } else {
+      let min_val = 99;
+      for (let act of this.action(
+        updated_s,
+        updatedBigBoard,
+        previousMoveCell_j
+      )) {
+        let l = act.split(" ");
+        let currentCellMove_i = parseInt(l[0]);
+        let currentCellMove_j = parseInt(l[1]);
+        let result_s = this.result(updated_s, act, maximizingPlayer);
+        let result_bigB = this.updatedBigBoardFunc(
+          result_s,
+          updatedBigBoard,
+          currentCellMove_i,
+          maximizingPlayer
+        );
+        let v = this.minimax(
+          result_s,
+          actual_s,
+          result_bigB,
+          actualBigBoard,
+          currentCellMove_j,
+          updatedDepth - 1,
+          actualDepth,
+          true,
+          alpha,
+          beta
+        )[0];
+        if (updatedDepth >= actualDepth - 1 && (v == 0 || v == 5 || v == 3)) {
+          if (this.terminal(result_s, updatedBigBoard)) v = -5;
+          else if (v != 5 && actualDepth > 1) {
+            let result_sForOpponent = this.result(
+              updated_s,
+              act,
+              !maximizingPlayer
+            );
+            if (this.terminal(result_sForOpponent, updatedBigBoard)) v = -3;
+          }
+        }
+        if (updatedDepth == actualDepth) bestMove[act] = v;
+        if (v < min_val) {
+          min_val = v;
+        }
+        if (updatedDepth < actualDepth - 1) {
+          if (v < beta) beta = v;
+          if (beta <= alpha) break;
+        }
+      }
+      return [min_val, bestMove];
     }
-    if (maxVal == -99) return -1;
-    else return maxVal;
+  }
+  evaluation(updatedBigBoard, maximizingPlayer) {
+    if (
+      this.terminalForBigBoard(updatedBigBoard, 999) &&
+      this.terminalForBigBoard(updatedBigBoard, "D")
+    ) {
+      if (maximizingPlayer) return -10;
+      else return 10;
+    } else return 0;
+  }
+  updatedBigBoardFunc(
+    updated_s,
+    bigBoard,
+    currentCellMove_i,
+    maximizingPlayer
+  ) {
+    let temp = structuredClone(bigBoard);
+    if (this.terminal(updated_s, bigBoard)) {
+      if (maximizingPlayer) temp[currentCellMove_i] = "X";
+      else temp[currentCellMove_i] = "O";
+    } else if (!this.action(updated_s, bigBoard, currentCellMove_i))
+      temp[currentCellMove_i] = "D";
+    return temp;
   }
   bigBoardStateUpdater(currentMove, mark, CSBS, CBBS) {
     if (this.terminal(CSBS, CBBS)) CBBS[currentMove] = mark;
@@ -249,4 +342,5 @@ class Game {
     return tempList;
   }
 }
+
 
