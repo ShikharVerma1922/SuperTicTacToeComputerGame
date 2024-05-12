@@ -208,7 +208,7 @@ function doMouseDown(event) {
       G1.terminalForBigBoard(currentBigBoardState, 999) &&
       G1.terminalForBigBoard(currentBigBoardState, "D")) ||
     !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
-    !G1.currentLegalMoveForX(currentSmallBoardState, currentBigBoardState, j)
+    !G1.isAnyBlockEmpty(currentBigBoardState)
   ) {
     if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
     updateScore();
