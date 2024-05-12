@@ -66,9 +66,16 @@
 @keyframes animate-bottom {
   0% {
     bottom: 0%;
+    opacity: 1;
+  }
+  16% {
+    bottom: 6%;
+  }
+  75% {
+    opacity: 1;
   }
   100% {
-    bottom: 6%;
+    opacity: 0;
   }
 }
 .fade-out-animation {
