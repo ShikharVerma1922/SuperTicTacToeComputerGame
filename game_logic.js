@@ -92,7 +92,7 @@ class Game {
       return 1;
     else if (this.player(s) == "X" && this.terminalForBigBoard(bigBoard, "D"))
       return -1;
-    else if (!this.terminalForBigBoard(s, "D")) return 0;
+    else if (!this.terminalForBigBoard(bigBoard, "D")) return 0;
   }
   terminalForBigBoard(bigBoard, placeHolder) {
     if (
@@ -340,6 +340,14 @@ class Game {
       tempList.push(i);
     }
     return tempList;
+  }
+  isAnyBlockEmpty(bigBoard) {
+    for (let i = 0; i < 9; i++) {
+      if (bigBoard[i] == 999) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
