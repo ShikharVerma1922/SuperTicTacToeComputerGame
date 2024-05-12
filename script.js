@@ -119,12 +119,12 @@ function easyFunc() {
 }
 function mediumFunc() {
   depthLevel = 2;
-  currentDifficultyLevel.innerHTML = "DIFFICULTY LEVEL - Medium";
+  currentDifficultyLevel.innerHTML = "Difficulty Level - MEDIUM";
   dropBtn.innerHTML = "MEDIUM";
 }
 function hardFunc() {
   depthLevel = 4;
-  currentDifficultyLevel.innerHTML = "DIFFICULTY LEVEL - Hard";
+  currentDifficultyLevel.innerHTML = "Difficulty Level - HARD";
   dropBtn.innerHTML = "HARD";
 }
 
