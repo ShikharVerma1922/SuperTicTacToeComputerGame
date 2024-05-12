@@ -272,8 +272,10 @@ function doMouseDown(event) {
     // console.log(currentSmallBoardState);
   } //For Illegal Move
   else if (!gameOver) {
-    if (soundOpen) SOUNDS.illegalSound();
-    navigator.vibrate(100);
+    if (soundOpen) {
+      SOUNDS.illegalSound();
+      navigator.vibrate(100);
+    }
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
     illegalMoveMsg.classList.remove("hidden");
     illegalMoveMsg.classList.add("fade-out-animation");
