@@ -65,10 +65,13 @@ body {
 }
 h1 {
   color: white;
+  font-family: Raleway;
+  font-weight: bolder;
+  font-size: 170%;
   text-align: center;
   display: block;
-  margin-top: 15%;
-  margin-bottom: 6%;
+  margin-top: 10%;
+  margin-bottom: 3%;
 }
 #container {
   position: relative;
@@ -85,7 +88,7 @@ h1 {
   row-gap: 0;
 }
 #score {
-  margin: 7%;
+  margin: 4%;
   display: flex;
   text-align: center;
   flex-direction: row;
