@@ -19,4 +19,8 @@ class Sounds {
     let gameEndSound = new Audio("sounds/game-end_2.mp3");
     gameEndSound.play();
   }
+  clickSound() {
+    let clickSound = new Audio("sounds/click-sound.mp3");
+    clickSound.play();
+  }
 }
