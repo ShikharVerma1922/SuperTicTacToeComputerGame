@@ -54,6 +54,7 @@ function myFunction() {
 }
 function resign() {
   if (soundOpen) SOUNDS.gameStartSound();
+  navigator.vibrate(100);
   illegalMoveMsg.classList.remove("hidden");
   illegalMoveMsg.innerHTML = "Please make a move in any area";
   winnerParent.classList.add("hidden");
@@ -116,16 +117,19 @@ function easyFunc() {
   depthLevel = 1;
   currentDifficultyLevel.innerHTML = "Difficulty Level - EASY";
   dropBtn.innerHTML = "EASY";
+  SOUNDS.clickSound();
 }
 function mediumFunc() {
   depthLevel = 2;
   currentDifficultyLevel.innerHTML = "Difficulty Level - MEDIUM";
   dropBtn.innerHTML = "MEDIUM";
+  SOUNDS.clickSound();
 }
 function hardFunc() {
   depthLevel = 4;
   currentDifficultyLevel.innerHTML = "Difficulty Level - HARD";
   dropBtn.innerHTML = "HARD";
+  SOUNDS.clickSound();
 }
 
 soundButton.addEventListener("click", () => {
@@ -149,6 +153,7 @@ function doMouseDown(event) {
 
   //New Game Set Up
   if (gameOver) {
+    navigator.vibrate(100);
     if (soundOpen) SOUNDS.gameStartSound();
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
@@ -265,7 +270,7 @@ function doMouseDown(event) {
   } //For Illegal Move
   else if (!gameOver) {
     if (soundOpen) SOUNDS.illegalSound();
-    navigator.vibrate(200);
+    navigator.vibrate(100);
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
     illegalMoveMsg.classList.remove("hidden");
     illegalMoveMsg.classList.add("fade-out-animation");
