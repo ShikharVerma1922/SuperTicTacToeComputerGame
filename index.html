@@ -12,9 +12,14 @@
     />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="icon" type="image/x-icon" href="images/game-_1_.svg" />
+
+    <!-- <link rel="shortcut icon" href="#" /> -->
+    <link rel="icon" type="image/x-icon" href="images/game_1.svg" />
   </head>
   <body>
+    <!-- <div>
+      <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
+    </div> -->
     <div id="container">
       <div id="container_2">
         <div>
@@ -22,8 +27,8 @@
         </div>
         <div id="canvas_div">
           <canvas id="myCanvas" background-color="green"></canvas>
-          <div id="winner_parent" class="hidden">
-            <div id="winner_container">
+          <div id="winner_parent" class="winner-parent hidden">
+            <div id="winner_container" class="winner-container">
               <p id="winner">WINNER</p>
             </div>
           </div>
@@ -60,22 +65,27 @@
       </div>
       <div id="container_3">
         <div id="difficulty-level" class="hidden">
-          <p>DIFFICULTY LEVEL</p>
+          <p>DIFFICULTY LEVEL - Medium</p>
         </div>
 
         <div class="dropdown">
-          <button onclick="myFunction()" class="dropbtn" id="dropbtnID">
-            CHOOSE DIFFICULTY LEVEL
-          </button>
-          <div id="myDropdown" class="dropdown-content">
-            <button onclick="easyFunc()" id="easy_btn">Easy</button>
-            <button onclick="mediumFunc()" id="medium_btn">Medium</button>
-            <button onclick="hardFunc()" id="hard_btn">Hard</button>
+          <div id="diff-text">
+            <p>Select Game Difficulty</p>
+          </div>
+          <div style="position: relative">
+            <button onclick="myFunction()" class="dropbtn" id="dropbtnID">
+              MEDIUM
+            </button>
+            <div id="myDropdown" class="dropdown-content">
+              <button onclick="easyFunc()" id="easy_btn">Easy</button>
+              <button onclick="mediumFunc()" id="medium_btn">Medium</button>
+              <button onclick="hardFunc()" id="hard_btn">Hard</button>
+            </div>
           </div>
         </div>
-        <div>
-          <p id="level">Medium</p>
-        </div>
+        <button onclick="resign()" id="resign" class="hidden">
+          <img src="images/resign-flag.svg" alt="" /> Resign
+        </button>
       </div>
     </div>
     <div
@@ -97,6 +107,10 @@
   </body>
   <script src="sounds.js"></script>
   <script src="game_logic.js"></script>
+  <script src="game_board.js"></script>
+  <script src="script.js"></script>
+</html>
+
   <script src="game_board.js"></script>
   <script src="script.js"></script>
 </html>
