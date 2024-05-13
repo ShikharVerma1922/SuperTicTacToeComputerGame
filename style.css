@@ -49,6 +49,7 @@
 @keyframes slide-bottom {
   0% {
     bottom: 0%;
+    opacity: 1;
   }
 
   100% {
@@ -71,8 +72,18 @@
     opacity: 0;
   }
 }
+@keyframes blink-border {
+  0% {
+    border: 2px solid white;
+  }
+  50% {
+    border: 2px solid gray;
+    /* border-right: 10px solid white !important; */
+  }
+}
 .normal-slide-bottom {
   opacity: 1;
+  color: white !important;
   animation: slide-bottom 400ms ease;
 }
 .illegal-move-msg-animation {
@@ -204,7 +215,6 @@ h1 {
 
   #winner {
     font: bolder 200% "Raleway";
-    /* background-color: black; */
     color: cyan;
     animation: clip-path-reveal-1 1500ms ease;
   }
@@ -243,7 +253,7 @@ h1 {
 .dropbtn {
   position: relative;
   background-color: cyan;
-  width: 59%;
+  width: 60%;
   color: black;
   padding: 5px;
   font-size: 90%;
@@ -321,6 +331,35 @@ h1 {
 .hidden {
   display: none !important;
 }
+.modal {
+  display: block;
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: black;
+  margin: auto;
+  padding: 5px;
+  top: 15%;
+  border: 2px solid white;
+  width: 80%;
+  font-family: Raleway;
+  text-align: center;
+  font-weight: 300;
+  font-size: 120%;
+  animation: blink-border 4s ease infinite;
+}
 @media only screen and (min-width: 600px) {
   #container {
     position: relative;
@@ -340,6 +379,7 @@ h1 {
   }
   #illegal_move {
     position: fixed;
+    /* bottom: 40%; */
     width: max-content;
   }
 
@@ -354,5 +394,6 @@ h1 {
     margin-bottom: 3%;
   }
 }
+
 
 
