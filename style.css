@@ -338,7 +338,7 @@ h1 {
     align-items: center;
   }
   #illegal_move {
-    position: relative;
+    position: fixed;
     width: max-content;
   }
 
