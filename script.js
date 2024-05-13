@@ -23,6 +23,9 @@ let winnerContainer = document.getElementById("winner_container");
 let winnerParent = document.getElementById("winner_parent");
 let resignBtn = document.getElementById("resign");
 let modal = document.getElementById("myModal");
+let modal2 = document.getElementById("myModal_2");
+let btn = document.getElementById("myBtn");
+let span = document.getElementsByClassName("close")[0];
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
@@ -99,6 +102,13 @@ function myFunction() {
   document.getElementById("myDropdown").classList.toggle("show");
   illegalMoveMsg.classList.add("hidden");
 }
+
+btn.onclick = function () {
+  modal2.style.display = "block";
+};
+span.onclick = function () {
+  modal2.style.display = "none";
+};
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
@@ -446,3 +456,4 @@ function gameInitialState() {
   G1 = new Game();
   SOUNDS = new Sounds();
 }
+
