@@ -278,10 +278,12 @@ function doMouseDown(event) {
     }
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
     illegalMoveMsg.classList.remove("hidden");
-    illegalMoveMsg.classList.add("fade-out-animation");
+    illegalMoveMsg.classList.remove("normal-slide-bottom");
+    illegalMoveMsg.classList.add("illegal-move-msg-animation");
     setTimeout(() => {
       illegalMoveMsg.classList.add("hidden");
-      illegalMoveMsg.classList.remove("fade-out-animation");
+      illegalMoveMsg.classList.add("normal-slide-bottom");
+      illegalMoveMsg.classList.remove("illegal-move-msg-animation");
     }, 2900);
     illegalMove();
   }
