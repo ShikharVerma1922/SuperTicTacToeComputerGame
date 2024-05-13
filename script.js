@@ -7,6 +7,7 @@ let playerScore = 0,
   computerScore = 0;
 let depthLevel = 3;
 let gameBegin = false;
+let infoShown = false;
 ///
 let canvas = document.getElementById("myCanvas");
 let playerScoreEle = document.getElementById("playerScore");
@@ -120,6 +121,7 @@ window.onclick = function (event) {
     infoSlide.style.animation = "info-slide 5s ease";
     setTimeout(() => {
       infoSlide.style.display = "none";
+      infoShown = true;
     }, 4999);
   } else if (!event.target.matches(".dropbtn")) {
     modal.style.display = "none";
@@ -133,6 +135,14 @@ window.onclick = function (event) {
           illegalMoveMsg.classList.remove("hidden");
         }
       }
+    }
+    if (!infoShown) {
+      infoSlide.classList.remove("hidden");
+      infoSlide.style.animation = "info-slide 5s ease";
+      setTimeout(() => {
+        infoSlide.style.display = "none";
+      }, 4999);
+      infoShown = true;
     }
   }
   if (event.target == modal2) {
