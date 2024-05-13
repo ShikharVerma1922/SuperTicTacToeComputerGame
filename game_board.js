@@ -360,10 +360,10 @@ class GameBoard {
     this.ctx.beginPath();
     this.ctx.fillStyle = color;
     this.ctx.fillRect(
-      x + this.cd * 0.005,
-      y + this.cd * 0.005,
-      this.cd / 3 - this.cd * 0.01,
-      this.cd / 3 - this.cd * 0.01
+      x + this.cd * 0.01,
+      y + this.cd * 0.01,
+      this.cd / 3 - this.cd * 0.02,
+      this.cd / 3 - this.cd * 0.02
     );
     for (let i = 1; i <= 2; i++) {
       this.drawLine(
