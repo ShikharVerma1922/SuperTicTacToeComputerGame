@@ -158,6 +158,7 @@ function doMouseDown(event) {
     SOUNDS.gameStartSound();
     navigator.vibrate(100);
     }
+    resignBtn.innerHTML = "<img src='images/resign-flag.svg/> Resign";
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
     winnerContainer.classList.remove("winner-container");
@@ -300,7 +301,7 @@ function doMouseDown(event) {
     updateScore();
     gameOverAnimantion();
     illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
-    resignBtn.classList.add("hidden");
+    resignBtn.innerHTML = "<img src='images/plus.svg' alt='' /> New Game";
     if (illegalMoveMsg.classList.contains("hidden"))
       illegalMoveMsg.classList.remove("hidden");
     let winner = "GAME DRAW";
