@@ -26,6 +26,7 @@ let modal = document.getElementById("myModal");
 let modal2 = document.getElementById("myModal_2");
 let btn = document.getElementById("myBtn");
 let span = document.getElementsByClassName("close")[0];
+let infoSlide = document.getElementById("info");
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
@@ -115,7 +116,11 @@ window.onclick = function (event) {
   // dropBtn.innerHTML = "MEDIUM";
   if (event.target.matches(".modal")) {
     modal.style.display = "none";
-    rulesDisplay = false;
+    infoSlide.classList.remove("hidden");
+    infoSlide.style.animation = "info-slide 5s ease";
+    setTimeout(() => {
+      infoSlide.style.display = "none";
+    }, 4999);
   } else if (!event.target.matches(".dropbtn")) {
     modal.style.display = "none";
     var dropdowns = document.getElementsByClassName("dropdown-content");
@@ -130,6 +135,9 @@ window.onclick = function (event) {
       }
     }
   }
+  if (event.target == modal2) {
+    modal2.style.display = "none";
+  }  
 };
 function easyFunc() {
   depthLevel = 1;
@@ -228,6 +236,7 @@ function doMouseDown(event) {
     } else {
       dropBtn.classList.add("hidden");
       diffText.classList.add("hidden");
+      winnerParent.classList.add("hidden");
       resignBtn.innerHTML =
         "<img src='images/resign-flag.svg' alt='' /> Resign";
       resignBtn.classList.remove("hidden");
