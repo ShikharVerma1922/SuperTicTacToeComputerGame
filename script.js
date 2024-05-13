@@ -22,6 +22,7 @@ let winnerMsg = document.getElementById("winner");
 let winnerContainer = document.getElementById("winner_container");
 let winnerParent = document.getElementById("winner_parent");
 let resignBtn = document.getElementById("resign");
+let modal = document.getElementById("myModal");
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
@@ -47,15 +48,9 @@ function resizeCanvas() {
   if (gameOver) gameOverAnimantion();
 }
 
-function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
-  illegalMoveMsg.classList.add("hidden");
-}
 function resign() {
-  if (soundOpen) {
-  SOUNDS.gameStartSound();
-  navigator.vibrate(100);
-  }
+  myFunction();
+  if (soundOpen) SOUNDS.gameStartSound();
   illegalMoveMsg.classList.remove("hidden");
   illegalMoveMsg.innerHTML = "Please make a move in any area";
   winnerParent.classList.add("hidden");
@@ -99,17 +94,29 @@ function resign() {
   });
   gameInitialState();
 }
+
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+  illegalMoveMsg.classList.add("hidden");
+}
+
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
   // dropBtn.innerHTML = "MEDIUM";
-  if (!event.target.matches(".dropbtn")) {
+  if (event.target.matches(".modal")) {
+    modal.style.display = "none";
+    rulesDisplay = false;
+  } else if (!event.target.matches(".dropbtn")) {
+    modal.style.display = "none";
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {
       var openDropdown = dropdowns[i];
       if (openDropdown.classList.contains("show")) {
         openDropdown.classList.remove("show");
-        if (!gameBegin) illegalMoveMsg.classList.remove("hidden");
+        if (!gameBegin) {
+          illegalMoveMsg.classList.remove("hidden");
+        }
       }
     }
   }
@@ -124,7 +131,7 @@ function mediumFunc() {
   depthLevel = 2;
   currentDifficultyLevel.innerHTML = "Difficulty Level - MEDIUM";
   dropBtn.innerHTML = "MEDIUM";
- if (soundOpen) SOUNDS.clickSound();
+  if (soundOpen) SOUNDS.clickSound();
 }
 function hardFunc() {
   depthLevel = 4;
@@ -154,10 +161,8 @@ function doMouseDown(event) {
 
   //New Game Set Up
   if (gameOver) {
-    if (soundOpen) {
-    SOUNDS.gameStartSound();
-    navigator.vibrate(100);
-    }
+    myFunction();
+    if (soundOpen) SOUNDS.gameStartSound();
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
     winnerContainer.classList.remove("winner-container");
@@ -187,7 +192,7 @@ function doMouseDown(event) {
       dropBtn.classList.add("hidden");
       diffText.classList.add("hidden");
       resignBtn.innerHTML =
-        "<img src='images/resign-flag.svg' alt='' /> Resign";  
+        "<img src='images/resign-flag.svg' alt='' /> Resign";
       resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
     }
@@ -276,10 +281,8 @@ function doMouseDown(event) {
     // console.log(currentSmallBoardState);
   } //For Illegal Move
   else if (!gameOver) {
-    if (soundOpen) {
-      SOUNDS.illegalSound();
-      navigator.vibrate(100);
-    }
+    if (soundOpen) SOUNDS.illegalSound();
+    navigator.vibrate(200);
     illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
     illegalMoveMsg.classList.remove("hidden");
     illegalMoveMsg.classList.remove("normal-slide-bottom");
@@ -297,16 +300,23 @@ function doMouseDown(event) {
     (!gameOver &&
       G1.terminalForBigBoard(currentBigBoardState, 999) &&
       G1.terminalForBigBoard(currentBigBoardState, "D")) ||
-    !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
+    !G1.bestMoveForO(currentSmallBoardState, currentBigBoardState, j) ||
     !G1.isAnyBlockEmpty(currentBigBoardState)
   ) {
     if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
     updateScore();
     gameOverAnimantion();
-    illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
+    // resignBtn.classList.add("hidden");
     resignBtn.innerHTML = "<img src='images/plus.svg' alt='' /> New Game";
-    if (illegalMoveMsg.classList.contains("hidden"))
-      illegalMoveMsg.classList.remove("hidden");
+    illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
+    illegalMoveMsg.classList.remove("hidden");
+    illegalMoveMsg.classList.remove("normal-slide-bottom");
+    illegalMoveMsg.classList.add("illegal-move-msg-animation");
+    setTimeout(() => {
+      illegalMoveMsg.classList.add("hidden");
+      illegalMoveMsg.classList.add("normal-slide-bottom");
+      illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+    }, 2900);
     let winner = "GAME DRAW";
     if (G1.utility(currentSmallBoardState, currentBigBoardState) == 1)
       winner = "YOU WON";
@@ -436,4 +446,3 @@ function gameInitialState() {
   G1 = new Game();
   SOUNDS = new Sounds();
 }
-
