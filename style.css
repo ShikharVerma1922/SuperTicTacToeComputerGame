@@ -226,6 +226,7 @@ h1 {
   padding: 10px;
   font-size: 90%;
   font-weight: bold;
+  border-bottom: rgb(160, 158, 158) 1px solid;
 }
 #diff-text {
   font-family: Raleway;
@@ -234,7 +235,7 @@ h1 {
   margin-bottom: 5px;
 }
 #resign {
-  margin-top: 10%;
+  margin-top: 3%;
   background: none;
   border: none;
   color: grey;
