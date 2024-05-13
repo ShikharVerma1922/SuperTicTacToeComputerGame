@@ -158,7 +158,6 @@ function doMouseDown(event) {
     SOUNDS.gameStartSound();
     navigator.vibrate(100);
     }
-    resignBtn.innerHTML = "<img src='images/resign-flag.svg/> Resign";
     illegalMoveMsg.innerHTML = "Please make a move in any area";
     winnerParent.classList.add("hidden");
     winnerContainer.classList.remove("winner-container");
@@ -187,6 +186,8 @@ function doMouseDown(event) {
     } else {
       dropBtn.classList.add("hidden");
       diffText.classList.add("hidden");
+      resignBtn.innerHTML =
+        "<img src='images/resign-flag.svg' alt='' /> Resign";  
       resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
     }
@@ -212,6 +213,8 @@ function doMouseDown(event) {
     } else {
       dropBtn.classList.add("hidden");
       diffText.classList.add("hidden");
+      resignBtn.innerHTML =
+        "<img src='images/resign-flag.svg' alt='' /> Resign";
       resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
     }
