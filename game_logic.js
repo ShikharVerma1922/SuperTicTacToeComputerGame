@@ -177,7 +177,7 @@ class Game {
           beta
         )[0];
         if (
-          updatedDepth >= actualDepth - 1 &&
+          updatedDepth >= actualDepth - 3 &&
           (v == 0 || v == -5 || v == -3 || v == 4)
         ) {
           if (this.terminal(result_s, updatedBigBoard)) {
@@ -236,7 +236,7 @@ class Game {
           beta
         )[0];
         if (
-          updatedDepth >= actualDepth - 1 &&
+          updatedDepth >= actualDepth - 3 &&
           (v == 0 || v == 5 || v == 3 || v == -4)
         ) {
           if (this.terminal(result_s, updatedBigBoard)) {
