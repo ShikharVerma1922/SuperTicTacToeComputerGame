@@ -124,7 +124,7 @@ class Game {
       return 1;
     else return 0;
   }
- minimax(
+minimax(
     updated_s,
     actual_s,
     updatedBigBoard,
@@ -176,17 +176,10 @@ class Game {
           alpha,
           beta
         )[0];
-        if (
-          updatedDepth >= actualDepth - 3 &&
-          (v == 0 || v == -5 || v == -3 || v == 4)
-        ) {
-          if (this.terminal(result_s, updatedBigBoard)) {
-            if (v == -5 && actualBigBoard > 3) v = -4;
-            else v = 5;
-          }
-
+        if (updatedDepth >= actualDepth - 3 && (v == 0 || v == -5 || v == -3)) {
+          if (this.terminal(result_s, updatedBigBoard)) v = 5;
           // console.log(this.result(updated_s, act, !maximizingPlayer));
-          else if (v != -5 && v != -4 && actualDepth > 1) {
+          else if (v != -5 && actualDepth > 1) {
             let result_sForOpponent = this.result(
               updated_s,
               act,
@@ -235,14 +228,9 @@ class Game {
           alpha,
           beta
         )[0];
-        if (
-          updatedDepth >= actualDepth - 3 &&
-          (v == 0 || v == 5 || v == 3 || v == -4)
-        ) {
-          if (this.terminal(result_s, updatedBigBoard)) {
-            if (v == 5 && actualDepth > 3) v = 4;
-            else v = -5;
-          } else if (v != 5 && v != 4 && actualDepth > 1) {
+        if (updatedDepth >= actualDepth - 3 && (v == 0 || v == 5 || v == 3)) {
+          if (this.terminal(result_s, updatedBigBoard)) v = -5;
+          else if (v != 5 && actualDepth > 1) {
             let result_sForOpponent = this.result(
               updated_s,
               act,
