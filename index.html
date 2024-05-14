@@ -12,12 +12,17 @@
     />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
     <link rel="stylesheet" href="style.css" />
+
+    <!-- <link rel="shortcut icon" href="#" /> -->
     <link rel="icon" type="image/x-icon" href="images/game-_1_.svg" />
   </head>
   <body>
+    <!-- <div>
+      <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
+    </div> -->
     <div id="container">
       <div id="container_2">
-        <div>
+        <div id="heading">
           <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
         </div>
         <div id="canvas_div">
@@ -83,10 +88,7 @@
         </button>
       </div>
     </div>
-    <div
-      id="illegal_move"
-      class="hidden normal-slide-bottom"
-    >
+    <div id="illegal_move" class="hidden normal-slide-bottom">
       Please make a move in any area
     </div>
     <div>
@@ -101,18 +103,20 @@
     </div>
     <div id="myModal" class="modal">
       <div class="modal-content">
-        <p>
-          Win three small Tic Tac Toe boards in a row, either horizontally,
-          vertically, or diagonally against the computer
-        </p>
+        <p class="text text-1">Win three small Tic Tac Toe boards</p>
+        <p class="text text-2">in a row, either horizontally, vertically,</p>
+        <p class="text text-3">or diagonally against the computer.</p>
+        <p class="text text-4">To know more click <span><img src="images/rules_2.svg" alt=""></span></p>
       </div>
     </div>
     <!-- Trigger/Open The Modal -->
     <div class="i_btn">
-      <button id="myBtn"><img src="images/rules.svg" alt="rules image" width="35">
+      <button id="myBtn"><img src="images/rules_2.svg" alt="rules image" width="25" style="fill: red;"> 
       </button>
       <div id="info" class="hidden"><p>info</p></div>
     </div>
+
+    <!-- The Modal -->
     <div id="myModal_2" class="modal_2">
       <!-- Modal content -->
       <div class="modal-content_2">
@@ -137,11 +141,11 @@
         </p>
       </div>
     </div>
+    <!-- <div id="info"><p>info</p></div> -->
   </body>
   <script src="sounds.js"></script>
   <script src="game_logic.js"></script>
   <script src="game_board.js"></script>
   <script src="script.js"></script>
 </html>
-
 
