@@ -408,7 +408,7 @@ h1 {
   }
 }
 .fade-out-modal1 {
-  animation: fade-out 18s ease;
+  animation: fade-out 13s ease;
 }
 .text {
   /* letter-spacing: 2px; */
@@ -419,22 +419,23 @@ h1 {
   overflow: hidden;
 }
 .text-1 {
-  animation: typing 4s steps(34) forwards, cursor 0.4s step-end 9 alternate;
+  animation: typing 3s steps(34) forwards, cursor 0.4s step-end 7 alternate;
 }
 .text-2 {
-  animation: typing 4941ms 4s steps(42) forwards,
-    cursor 0.4s 4s step-end 11 alternate;
+  animation: typing 3s 3s steps(42) forwards,
+    cursor 0.4s 3s step-end 7 alternate;
 }
 .text-3 {
-  animation: typing 4200ms 9s steps(35) forwards,
-    cursor 0.4s 9s step-end 10 alternate;
+  animation: typing 3s 6s steps(35) forwards,
+    cursor 0.4s 6s step-end 7 alternate;
 }
 .text-4 {
-  left: 10%;
+  max-width: fit-content;
+  margin-left: 20%;
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
-  animation: typing 4200ms 13s ease forwards;
+  animation: typing 4s 9s ease forwards;
 }
 
 .modal_2 {
