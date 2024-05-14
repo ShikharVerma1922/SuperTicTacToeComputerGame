@@ -55,8 +55,9 @@ function resizeCanvas() {
 
 function resign() {
   myFunction();
+  document.getElementById("myDropdown").style.display = "block";
   if (soundOpen) SOUNDS.gameStartSound();
-  illegalMoveMsg.classList.remove("hidden");
+  // illegalMoveMsg.classList.remove("hidden");
   illegalMoveMsg.innerHTML = "Please make a move in any area";
   winnerParent.classList.add("hidden");
   winnerContainer.classList.remove("winner-container");
@@ -101,7 +102,7 @@ function resign() {
 }
 
 function myFunction() {
-  document.getElementById("myDropdown").classList.toggle("show");
+  document.getElementById("myDropdown").style.display = "block";
   illegalMoveMsg.classList.add("hidden");
 }
 
@@ -139,15 +140,12 @@ window.onclick = function (event) {
     modal.style.display = "none";
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains("show")) {
-        openDropdown.classList.remove("show");
-        if (!gameBegin) {
-          illegalMoveMsg.classList.remove("hidden");
-        }
-      }
-    }
+    if (
+      document.getElementById("myDropdown").style.display == "none" &&
+      !gameBegin
+    )
+      illegalMoveMsg.classList.remove("hidden");
+    // document.getElementById("myDropdown").style.display = "none";
     if (!infoShown) {
       infoSlide.classList.remove("hidden");
       infoSlide.style.animation = "info-slide 5s ease";
@@ -166,18 +164,30 @@ function easyFunc() {
   currentDifficultyLevel.innerHTML = "Difficulty Level - EASY";
   dropBtn.innerHTML = "EASY";
   if (soundOpen) SOUNDS.clickSound();
+  document.getElementById("myDropdown").style.display = "none";
+  document.getElementById("easy_btn").style.color = "cyan";
+  document.getElementById("medium_btn").style.color = "white";
+  document.getElementById("hard_btn").style.color = "white";
 }
 function mediumFunc() {
   depthLevel = 2;
   currentDifficultyLevel.innerHTML = "Difficulty Level - MEDIUM";
   dropBtn.innerHTML = "MEDIUM";
   if (soundOpen) SOUNDS.clickSound();
+  document.getElementById("myDropdown").style.display = "none";
+  document.getElementById("easy_btn").style.color = "white";
+  document.getElementById("medium_btn").style.color = "cyan";
+  document.getElementById("hard_btn").style.color = "white";
 }
 function hardFunc() {
   depthLevel = 4;
   currentDifficultyLevel.innerHTML = "Difficulty Level - HARD";
   dropBtn.innerHTML = "HARD";
   if (soundOpen) SOUNDS.clickSound();
+  document.getElementById("myDropdown").style.display = "none";
+  document.getElementById("easy_btn").style.color = "white";
+  document.getElementById("medium_btn").style.color = "white";
+  document.getElementById("hard_btn").style.color = "cyan";
 }
 
 soundButton.addEventListener("click", () => {
@@ -256,6 +266,7 @@ function doMouseDown(event) {
         currentDifficultyLevel.classList.add("hidden");
       }
     } else {
+      document.getElementById("myDropdown").style.display = "none";
       dropBtn.classList.add("hidden");
       winnerParent.classList.add("hidden");
       diffText.classList.add("hidden");
@@ -487,4 +498,3 @@ function gameInitialState() {
   G1 = new Game();
   SOUNDS = new Sounds();
 }
-
