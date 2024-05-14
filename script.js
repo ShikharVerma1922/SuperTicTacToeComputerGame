@@ -126,6 +126,7 @@ setTimeout(() => {
 window.onclick = function (event) {
   // dropBtn.innerHTML = "MEDIUM";
   if (event.target.matches(".modal")) {
+    btn.style.opacity = "1";
     modal.style.display = "none";
     infoSlide.classList.remove("hidden");
     infoSlide.style.animation = "info-slide 5s ease";
@@ -134,6 +135,7 @@ window.onclick = function (event) {
       infoShown = true;
     }, 4999);
   } else if (!event.target.matches(".dropbtn")) {
+    btn.style.opacity = "1";
     modal.style.display = "none";
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
@@ -311,7 +313,7 @@ function doMouseDown(event) {
         GB.drawO(
           GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][0],
           GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][1],
-          "#8e44ad"
+          "red"
         );
         GB.drawBigMarks(currentBigBoardState, "white");
       }, 500);
