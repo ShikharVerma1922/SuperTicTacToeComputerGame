@@ -84,19 +84,27 @@
 @keyframes info-slide {
   0%,
   15% {
-    left: 20px;
-    opacity: 0;
+    left: -100%;
+    /* opacity: 0; */
   }
   25%,
   50%,
   75% {
-    opacity: 1;
-    left: 33px;
+    /* opacity: 1; */
+    left: 0px;
   }
   100% {
-    left: 20px;
-    opacity: 0;
+    left: -100%;
+    /* opacity: 0; */
     display: none;
+  }
+}
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 .normal-slide-bottom {
@@ -152,15 +160,29 @@ body {
   background-color: #212121;
   color: white;
 }
+#heading {
+  position: relative;
+  margin-top: 20%;
+  margin-bottom: 25%;
+}
 h1 {
+  position: fixed;
+  top: 4%;
+  left: 50%;
+  transform: translate(-50%);
+  z-index: 2;
   color: white;
   font-family: Raleway;
   font-weight: bolder;
   font-size: 170%;
   text-align: center;
   display: block;
-  margin-top: 10%;
-  margin-bottom: 3%;
+  width: 90%;
+  margin: 0;
+  /* margin-top: 10%;
+  margin-bottom: 3%; */
+  border: none;
+  background-color: transparent;
 }
 #container {
   position: relative;
@@ -483,8 +505,11 @@ li {
 #myBtn {
   background: none;
   border: none;
+  opacity: 0;
+  animation: fade-in 1s ease 10500ms forwards;
 }
 .i_btn {
+  z-index: 3;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -493,18 +518,22 @@ li {
   top: 3%;
   left: 3%;
 }
+#info-container {
+  overflow: hidden;
+  width: 100px;
+}
 #info {
-  position: absolute;
-  /* border: 1px solid red; */
+  position: relative;
   background-color: white;
   color: #212121;
   font-weight: bold;
   font-size: 12px;
+
+  width: fit-content;
+  /* overflow: hidden; */
   border-radius: 16px;
   padding-left: 6px;
   padding-right: 6px;
-  width: fit-content;
-  /* top: 3.8%; */
 }
 @media only screen and (min-width: 600px) {
   #container {
