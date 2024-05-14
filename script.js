@@ -111,6 +111,16 @@ btn.onclick = function () {
 span.onclick = function () {
   modal2.style.display = "none";
 };
+modal.classList.add("fade-out-modal1");
+setTimeout(() => {
+  modal.style.display = "none";
+  infoSlide.classList.remove("hidden");
+  infoSlide.style.animation = "info-slide 5s ease";
+  setTimeout(() => {
+    infoSlide.style.display = "none";
+    infoShown = true;
+  }, 4999);
+}, 17990);
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
@@ -141,13 +151,13 @@ window.onclick = function (event) {
       infoSlide.style.animation = "info-slide 5s ease";
       setTimeout(() => {
         infoSlide.style.display = "none";
-      }, 4999);
+      }, 4990);
       infoShown = true;
     }
   }
   if (event.target == modal2) {
     modal2.style.display = "none";
-  }  
+  }
 };
 function easyFunc() {
   depthLevel = 1;
@@ -245,8 +255,8 @@ function doMouseDown(event) {
       }
     } else {
       dropBtn.classList.add("hidden");
-      diffText.classList.add("hidden");
       winnerParent.classList.add("hidden");
+      diffText.classList.add("hidden");
       resignBtn.innerHTML =
         "<img src='images/resign-flag.svg' alt='' /> Resign";
       resignBtn.classList.remove("hidden");
