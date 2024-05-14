@@ -120,7 +120,7 @@ setTimeout(() => {
     infoSlide.style.display = "none";
     infoShown = true;
   }, 4999);
-}, 17990);
+}, 12990);
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function (event) {
