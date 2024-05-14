@@ -124,7 +124,7 @@ class Game {
       return 1;
     else return 0;
   }
-  minimax(
+ minimax(
     updated_s,
     actual_s,
     updatedBigBoard,
@@ -176,9 +176,17 @@ class Game {
           alpha,
           beta
         )[0];
-        if (updatedDepth >= actualDepth - 1 && (v == 0 || v == -5 || v == -3)) {
-          if (this.terminal(result_s, updatedBigBoard)) v = 5;
-          else if (v != -5 && actualDepth > 1) {
+        if (
+          updatedDepth >= actualDepth - 1 &&
+          (v == 0 || v == -5 || v == -3 || v == 4)
+        ) {
+          if (this.terminal(result_s, updatedBigBoard)) {
+            if (v == -5 && actualBigBoard > 3) v = -4;
+            else v = 5;
+          }
+
+          // console.log(this.result(updated_s, act, !maximizingPlayer));
+          else if (v != -5 && v != -4 && actualDepth > 1) {
             let result_sForOpponent = this.result(
               updated_s,
               act,
@@ -190,6 +198,7 @@ class Game {
         if (updatedDepth == actualDepth) bestMove[act] = v;
         if (v > max_val) {
           max_val = v;
+          // bestMove = [currentCellMove_i, currentCellMove_j];
         }
         if (updatedDepth < actualDepth - 1) {
           if (v > alpha) alpha = v;
@@ -226,9 +235,14 @@ class Game {
           alpha,
           beta
         )[0];
-        if (updatedDepth >= actualDepth - 1 && (v == 0 || v == 5 || v == 3)) {
-          if (this.terminal(result_s, updatedBigBoard)) v = -5;
-          else if (v != 5 && actualDepth > 1) {
+        if (
+          updatedDepth >= actualDepth - 1 &&
+          (v == 0 || v == 5 || v == 3 || v == -4)
+        ) {
+          if (this.terminal(result_s, updatedBigBoard)) {
+            if (v == 5 && actualDepth > 3) v = 4;
+            else v = -5;
+          } else if (v != 5 && v != 4 && actualDepth > 1) {
             let result_sForOpponent = this.result(
               updated_s,
               act,
@@ -237,15 +251,18 @@ class Game {
             if (this.terminal(result_sForOpponent, updatedBigBoard)) v = -3;
           }
         }
+        if (v == -99) v = 0;
         if (updatedDepth == actualDepth) bestMove[act] = v;
         if (v < min_val) {
           min_val = v;
+          // bestMove = [currentCellMove_i, currentCellMove_j];
         }
         if (updatedDepth < actualDepth - 1) {
           if (v < beta) beta = v;
           if (beta <= alpha) break;
         }
       }
+      // if (updatedDepth == 4) console.log(bestMove);
       return [min_val, bestMove];
     }
   }
