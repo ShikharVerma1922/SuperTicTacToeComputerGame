@@ -54,7 +54,6 @@ function resizeCanvas() {
 }
 
 function resign() {
-  myFunction();
   document.getElementById("myDropdown").style.display = "block";
   if (soundOpen) SOUNDS.gameStartSound();
   // illegalMoveMsg.classList.remove("hidden");
@@ -89,15 +88,17 @@ function resign() {
     resignBtn.classList.remove("hidden");
     currentDifficultyLevel.classList.remove("hidden");
   }
-  computerScore += 1;
-  computerScoreEle.innerText = `${computerScore}`;
-  computerScoreEle.classList.add("hidden");
-  setTimeout(() => {
-    computerScoreEle.classList.remove("hidden");
-    computerScoreEle.classList.add("w3-container");
-    computerScoreEle.classList.add("w3-center");
-    computerScoreEle.classList.add("w3-animate-zoom");
-  });
+  if (!gameOver){
+    computerScore += 1;
+    computerScoreEle.innerText = `${computerScore}`;
+    computerScoreEle.classList.add("hidden");
+    setTimeout(() => {
+      computerScoreEle.classList.remove("hidden");
+      computerScoreEle.classList.add("w3-container");
+      computerScoreEle.classList.add("w3-center");
+      computerScoreEle.classList.add("w3-animate-zoom");
+    });
+  }
   gameInitialState();
 }
 
