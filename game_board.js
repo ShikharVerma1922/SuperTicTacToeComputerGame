@@ -84,6 +84,8 @@ class GameBoard {
     this.ctx.stroke();
   }
   drawBoard() {
+    this.ctx.fillStyle = "black";
+    this.ctx.fillRect(0, 0, cd, cd);
     for (let j = 0; j <= 2; j++) {
       for (let i = 0; i <= 7; i++) {
         this.drawLine(
@@ -411,4 +413,3 @@ class GameBoard {
     }
   }
 }
-
