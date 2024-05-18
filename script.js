@@ -7,7 +7,10 @@ let playerScore = 0,
   computerScore = 0;
 let depthLevel = 3;
 let gameBegin = false;
+let gameOver = false;
 let infoShown = false;
+let singlePlayerMode = true;
+let playerX_Turn = true;
 ///
 let canvas = document.getElementById("myCanvas");
 let playerScoreEle = document.getElementById("playerScore");
@@ -28,6 +31,7 @@ let modal2 = document.getElementById("myModal_2");
 let btn = document.getElementById("myBtn");
 let span = document.getElementsByClassName("close")[0];
 let infoSlide = document.getElementById("info");
+let currentMove = document.getElementById("current-move");
 
 let ctx = canvas.getContext("2d");
 gameInitialState();
@@ -75,30 +79,58 @@ function resign() {
     winnerContainer.classList.add("winner-container");
   }, 3000);
   gameBegin = false;
-  if (!gameBegin) {
+  if (singlePlayerMode) {
     if (dropBtn.classList.contains("hidden")) {
       dropBtn.classList.remove("hidden");
       diffText.classList.remove("hidden");
       resignBtn.classList.add("hidden");
       currentDifficultyLevel.classList.add("hidden");
     }
+    if (!gameOver) {
+      computerScore += 1;
+      computerScoreEle.innerText = `${computerScore}`;
+      computerScoreEle.classList.add("hidden");
+      setTimeout(() => {
+        computerScoreEle.classList.remove("hidden");
+        computerScoreEle.classList.add("w3-container");
+        computerScoreEle.classList.add("w3-center");
+        computerScoreEle.classList.add("w3-animate-zoom");
+      });
+    }
   } else {
+    document.getElementById("myDropdown").style.display = "none";
     dropBtn.classList.add("hidden");
-    diffText.classList.add("hidden");
-    resignBtn.classList.remove("hidden");
-    currentDifficultyLevel.classList.remove("hidden");
+    currentMove.classList.remove("hidden");
+    document.getElementById("move-text").classList.remove("hidden");
+    document.getElementById("winner-mpm").classList.add("hidden");
+    resignBtn.classList.add("hidden");
+    gameBegin = false;
+    if (playerX_Turn && !gameOver) {
+      computerScore += 1;
+      computerScoreEle.innerText = `${computerScore}`;
+      computerScoreEle.classList.add("hidden");
+      setTimeout(() => {
+        computerScoreEle.classList.remove("hidden");
+        computerScoreEle.classList.add("w3-container");
+        computerScoreEle.classList.add("w3-center");
+        computerScoreEle.classList.add("w3-animate-zoom");
+      });
+    } else if (!playerX_Turn && !gameOver) {
+      playerScore += 1;
+      playerScoreEle.innerText = `${playerScore}`;
+      playerScoreEle.classList.add("hidden");
+      setTimeout(() => {
+        playerScoreEle.classList.remove("hidden");
+        playerScoreEle.classList.add("w3-container");
+        playerScoreEle.classList.add("w3-center");
+        playerScoreEle.classList.add("w3-animate-zoom");
+      });
+    }
+    playerX_Turn = true;
+    currentMove.innerHTML = "PLAYER X";
+    currentMove.style.color = "#ff4545";
   }
-  if (!gameOver){
-    computerScore += 1;
-    computerScoreEle.innerText = `${computerScore}`;
-    computerScoreEle.classList.add("hidden");
-    setTimeout(() => {
-      computerScoreEle.classList.remove("hidden");
-      computerScoreEle.classList.add("w3-container");
-      computerScoreEle.classList.add("w3-center");
-      computerScoreEle.classList.add("w3-animate-zoom");
-    });
-  }
+
   gameInitialState();
 }
 
@@ -106,6 +138,53 @@ function myFunction() {
   document.getElementById("myDropdown").style.display = "block";
   illegalMoveMsg.classList.add("hidden");
 }
+
+function changeMode() {
+  if (!gameBegin) {
+    if (soundOpen) SOUNDS.clickSound();
+    (playerScore = 0), (computerScore = 0), (tieScore = 0);
+    playerScoreEle.innerText = `${playerScore}`;
+    tieScoreEle.innerText = `${tieScore}`;
+    computerScoreEle.innerText = `${computerScore}`;
+    if (singlePlayerMode) {
+      document.getElementById("mode-button").innerHTML =
+        '<img src="images/multi-player.svg" width="30" alt="">';
+      document.getElementById("mode-text").innerHTML = "2P";
+      singlePlayerMode = false;
+      document.getElementById("myDropdown").style.display = "none";
+      dropBtn.classList.add("hidden");
+      diffText.classList.add("hidden");
+      document.getElementById("computer-text").innerHTML = "PLAYER (<b>O</b>)";
+      currentMove.classList.remove("hidden");
+      document.getElementById("move-text").classList.remove("hidden");
+    } else {
+      document.getElementById("mode-button").innerHTML =
+        '<img src="images/single-player.svg" width="30" alt="">';
+      document.getElementById("mode-text").innerHTML = "1P";
+      singlePlayerMode = true;
+      document.getElementById("myDropdown").style.display = "block";
+      dropBtn.classList.remove("hidden");
+      diffText.classList.remove("hidden");
+      document.getElementById("computer-text").innerHTML =
+        "COMPUTER (<b>O</b>)";
+      currentMove.classList.add("hidden");
+      document.getElementById("move-text").classList.add("hidden");
+      illegalMoveMsg.classList.add("hidden");
+    }
+  } else {
+    illegalMoveMsg.innerHTML = "Create a New Game!";
+    illegalMoveMsg.classList.remove("hidden");
+    illegalMoveMsg.classList.remove("normal-slide-bottom");
+    illegalMoveMsg.classList.add("illegal-move-msg-animation");
+    setTimeout(() => {
+      illegalMoveMsg.classList.add("hidden");
+      illegalMoveMsg.classList.add("normal-slide-bottom");
+      illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+    }, 2900);
+  }
+}
+
+document.getElementById("score").onclick = changeMode;
 
 btn.onclick = function () {
   modal2.style.display = "block";
@@ -210,63 +289,48 @@ function doMouseDown(event) {
   let i = GB.giveCurrentCellClick(canvs_x, canvs_y)[0];
   let j = GB.giveCurrentCellClick(canvs_x, canvs_y)[1];
 
-  //New Game Set Up
-  if (gameOver) {
-    myFunction();
-    if (soundOpen) SOUNDS.gameStartSound();
-    illegalMoveMsg.innerHTML = "Please make a move in any area";
-    winnerParent.classList.add("hidden");
-    winnerContainer.classList.remove("winner-container");
-    winnerParent.classList.remove("winner-parent");
-    setTimeout(() => {
-      winnerParent.classList.remove("hidden");
-      winnerMsg.innerHTML = "NEW GAME";
-      winnerContainer.classList.add("new-game-animation");
-      winnerParent.classList.add("new-game-parent");
-    }, 1);
-    setTimeout(() => {
+  if (singlePlayerMode) {
+    //New Game Set Up
+    if (gameOver) {
+      myFunction();
+      if (soundOpen) SOUNDS.gameStartSound();
+      illegalMoveMsg.innerHTML = "Please make a move in any area";
       winnerParent.classList.add("hidden");
-      winnerParent.classList.remove("new-game-parent");
-      winnerParent.classList.add("winner-parent");
-      winnerContainer.classList.remove("new-game-animation");
-      winnerContainer.classList.add("winner-container");
-    }, 3000);
-    gameBegin = false;
-    if (!gameBegin) {
+      winnerContainer.classList.remove("winner-container");
+      winnerParent.classList.remove("winner-parent");
+      setTimeout(() => {
+        winnerParent.classList.remove("hidden");
+        winnerMsg.innerHTML = "NEW GAME";
+        winnerContainer.classList.add("new-game-animation");
+        winnerParent.classList.add("new-game-parent");
+      }, 1);
+      setTimeout(() => {
+        winnerParent.classList.add("hidden");
+        winnerParent.classList.remove("new-game-parent");
+        winnerParent.classList.add("winner-parent");
+        winnerContainer.classList.remove("new-game-animation");
+        winnerContainer.classList.add("winner-container");
+      }, 3000);
+      gameBegin = false;
       if (dropBtn.classList.contains("hidden")) {
         dropBtn.classList.remove("hidden");
         diffText.classList.remove("hidden");
         resignBtn.classList.add("hidden");
         currentDifficultyLevel.classList.add("hidden");
       }
-    } else {
-      dropBtn.classList.add("hidden");
-      diffText.classList.add("hidden");
-      resignBtn.innerHTML =
-        "<img src='images/resign-flag.svg' alt='' /> Resign";
-      resignBtn.classList.remove("hidden");
-      currentDifficultyLevel.classList.remove("hidden");
+      gameInitialState();
+      return 0;
     }
-    gameInitialState();
-    return 0;
-  }
-  //For Legal Move
-  if (
-    currentMoveForX.includes(i) &&
-    currentSmallBoardState[i][j] == 999 &&
-    !G1.terminalForBigBoard(currentBigBoardState, 999) &&
-    !gameOver
-  ) {
-    illegalMoveMsg.classList.add("hidden");
-    gameBegin = true;
-    if (!gameBegin) {
-      if (dropBtn.classList.contains("hidden")) {
-        dropBtn.classList.remove("hidden");
-        diffText.classList.remove("hidden");
-        resignBtn.classList.add("hidden");
-        currentDifficultyLevel.classList.add("hidden");
-      }
-    } else {
+    //For Legal Move
+    if (
+      currentMoveForX.includes(i) &&
+      currentSmallBoardState[i][j] == 999 &&
+      !G1.terminalForBigBoard(currentBigBoardState, 999) &&
+      !gameOver
+    ) {
+      illegalMoveMsg.classList.add("hidden");
+      gameBegin = true;
+
       document.getElementById("myDropdown").style.display = "none";
       dropBtn.classList.add("hidden");
       winnerParent.classList.add("hidden");
@@ -275,109 +339,262 @@ function doMouseDown(event) {
         "<img src='images/resign-flag.svg' alt='' /> Resign";
       resignBtn.classList.remove("hidden");
       currentDifficultyLevel.classList.remove("hidden");
-    }
-    currentSmallBoardState[i][j] = "X";
-    G1.bigBoardStateUpdater(
-      i,
-      "X",
-      currentSmallBoardState,
-      currentBigBoardState
-    );
-    GB.drawSmallMarks(currentSmallBoardState, "white");
-    GB.drawX(
-      GB.coordinatesOfEachCell[i][j][0],
-      GB.coordinatesOfEachCell[i][j][1],
-      "#8e44ad"
-    );
-    if (soundOpen) SOUNDS.moveSound();
-    GB.drawBigMarks(currentBigBoardState, "white");
-    let bestMove = G1.bestMoveForMiniMax(
-      currentSmallBoardState,
-      currentBigBoardState,
-      j,
-      depthLevel,
-      false
-    );
-    if (
-      !G1.terminalForBigBoard(currentBigBoardState, 999) &&
-      bestMove &&
-      !gameOver
-    ) {
-      currentSmallBoardState[bestMove[0]][bestMove[1]] = "O";
+
+      currentSmallBoardState[i][j] = "X";
       G1.bigBoardStateUpdater(
-        bestMove[0],
-        "O",
+        i,
+        "X",
         currentSmallBoardState,
         currentBigBoardState
       );
-
-      currentMoveForX = G1.currentLegalMoveForX(
+      GB.drawSmallMarks(currentSmallBoardState, "white");
+      GB.drawX(
+        GB.coordinatesOfEachCell[i][j][0],
+        GB.coordinatesOfEachCell[i][j][1],
+        "#8e44ad"
+      );
+      if (soundOpen) SOUNDS.moveSound();
+      GB.drawBigMarks(currentBigBoardState, "white");
+      let bestMove = G1.bestMoveForMiniMax(
         currentSmallBoardState,
         currentBigBoardState,
-        bestMove[1]
+        j,
+        depthLevel,
+        false
       );
+      if (
+        !G1.terminalForBigBoard(currentBigBoardState, 999) &&
+        bestMove &&
+        !gameOver
+      ) {
+        currentSmallBoardState[bestMove[0]][bestMove[1]] = "O";
+        G1.bigBoardStateUpdater(
+          bestMove[0],
+          "O",
+          currentSmallBoardState,
+          currentBigBoardState
+        );
 
-      setTimeout(function () {
-        ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, cd, cd);
+        currentMoveForX = G1.currentLegalMoveForX(
+          currentSmallBoardState,
+          currentBigBoardState,
+          bestMove[1]
+        );
+
+        setTimeout(function () {
+          ctx.fillStyle = "black";
+          ctx.fillRect(0, 0, cd, cd);
+          GB.highlightLegalMoves(currentMoveForX, "#8e44ad");
+          GB.drawSmallMarks(currentSmallBoardState, "white");
+          GB.drawO(
+            GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][0],
+            GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][1],
+            "red"
+          );
+          GB.drawBigMarks(currentBigBoardState, "white");
+        }, 500);
+      }
+      // console.log(currentBigBoardState);
+      // console.log(currentSmallBoardState);
+    } //For Illegal Move
+    else if (!gameOver) {
+      if (soundOpen) SOUNDS.illegalSound();
+      navigator.vibrate(200);
+      illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
+      illegalMoveMsg.classList.remove("hidden");
+      illegalMoveMsg.classList.remove("normal-slide-bottom");
+      illegalMoveMsg.classList.add("illegal-move-msg-animation");
+      setTimeout(() => {
+        illegalMoveMsg.classList.add("hidden");
+        illegalMoveMsg.classList.add("normal-slide-bottom");
+        illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+      }, 2900);
+      illegalMove();
+    }
+
+    //Game Over
+    if (
+      (!gameOver &&
+        G1.terminalForBigBoard(currentBigBoardState, 999) &&
+        G1.terminalForBigBoard(currentBigBoardState, "D")) ||
+      !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
+      !G1.isAnyBlockEmpty(currentBigBoardState)
+    ) {
+      if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
+      updateScore();
+      gameOverAnimantion();
+      // resignBtn.classList.add("hidden");
+      resignBtn.innerHTML = "<img src='images/plus.svg' alt='' /> New Game";
+      illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
+      illegalMoveMsg.classList.remove("hidden");
+      illegalMoveMsg.classList.remove("normal-slide-bottom");
+      illegalMoveMsg.classList.add("illegal-move-msg-animation");
+      setTimeout(() => {
+        illegalMoveMsg.classList.add("hidden");
+        illegalMoveMsg.classList.add("normal-slide-bottom");
+        illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+      }, 2900);
+      let winner = "GAME DRAW";
+      if (G1.utility(currentSmallBoardState, currentBigBoardState) == 1)
+        winner = "YOU WON";
+      else if (G1.utility(currentSmallBoardState, currentBigBoardState) == -1)
+        winner = "YOU LOST";
+      winnerMsg.innerHTML = winner;
+      winnerParent.classList.remove("hidden");
+      gameOver = true;
+    }
+  }
+  // Multiplayer Mode
+  else {
+    //New Game Set Up MPM
+    if (gameOver) {
+      myFunction();
+      if (soundOpen) SOUNDS.gameStartSound();
+      illegalMoveMsg.innerHTML = "Please make a move in any area";
+      winnerParent.classList.add("hidden");
+      winnerContainer.classList.remove("winner-container");
+      winnerParent.classList.remove("winner-parent");
+      setTimeout(() => {
+        winnerParent.classList.remove("hidden");
+        winnerMsg.innerHTML = "NEW GAME";
+        winnerContainer.classList.add("new-game-animation");
+        winnerParent.classList.add("new-game-parent");
+      }, 1);
+      setTimeout(() => {
+        winnerParent.classList.add("hidden");
+        winnerParent.classList.remove("new-game-parent");
+        winnerParent.classList.add("winner-parent");
+        winnerContainer.classList.remove("new-game-animation");
+        winnerContainer.classList.add("winner-container");
+      }, 3000);
+      document.getElementById("myDropdown").style.display = "none";
+      dropBtn.classList.add("hidden");
+      currentMove.classList.remove("hidden");
+      document.getElementById("move-text").classList.remove("hidden");
+      document.getElementById("winner-mpm").classList.add("hidden");
+      resignBtn.classList.add("hidden");
+      gameBegin = false;
+      gameInitialState();
+      return 0;
+    }
+    // Legal Move Code MPM
+    if (
+      currentMoveForX.includes(i) &&
+      currentSmallBoardState[i][j] == 999 &&
+      !G1.terminalForBigBoard(currentBigBoardState, 999) &&
+      !gameOver
+    ) {
+      resignBtn.innerHTML =
+        "<img src='images/resign-flag.svg' alt='' /> Resign";
+      resignBtn.classList.remove("hidden");
+      winnerParent.classList.add("hidden");
+      illegalMoveMsg.classList.add("hidden");
+      gameBegin = true;
+      // Player X move
+      if (playerX_Turn) {
+        currentMove.style.color = "#2AAA8A";
+        currentMove.innerHTML = "PLAYER O";
+        GB.drawBoard();
+        currentSmallBoardState[i][j] = "X";
+        G1.bigBoardStateUpdater(
+          i,
+          "X",
+          currentSmallBoardState,
+          currentBigBoardState
+        );
+        if (soundOpen) SOUNDS.moveSound2();
+        GB.drawBigMarks(currentBigBoardState, "white");
+        playerX_Turn = false;
+        currentMoveForX = G1.currentLegalMoveForX(
+          currentSmallBoardState,
+          currentBigBoardState,
+          j
+        );
         GB.highlightLegalMoves(currentMoveForX, "#8e44ad");
         GB.drawSmallMarks(currentSmallBoardState, "white");
-        GB.drawO(
-          GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][0],
-          GB.coordinatesOfEachCell[bestMove[0]][bestMove[1]][1],
-          "red"
-        );
         GB.drawBigMarks(currentBigBoardState, "white");
-      }, 500);
-    }
-    // console.log(currentBigBoardState);
-    // console.log(currentSmallBoardState);
-  } //For Illegal Move
-  else if (!gameOver) {
-    if (soundOpen) SOUNDS.illegalSound();
-    navigator.vibrate(200);
-    illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
-    illegalMoveMsg.classList.remove("hidden");
-    illegalMoveMsg.classList.remove("normal-slide-bottom");
-    illegalMoveMsg.classList.add("illegal-move-msg-animation");
-    setTimeout(() => {
-      illegalMoveMsg.classList.add("hidden");
-      illegalMoveMsg.classList.add("normal-slide-bottom");
-      illegalMoveMsg.classList.remove("illegal-move-msg-animation");
-    }, 2900);
-    illegalMove();
-  }
+      }
+      // Player O move
+      else {
+        currentMove.style.color = "#FF4545";
+        currentMove.innerHTML = "PLAYER X";
+        GB.drawBoard();
+        currentSmallBoardState[i][j] = "O";
+        G1.bigBoardStateUpdater(
+          i,
+          "O",
+          currentSmallBoardState,
+          currentBigBoardState
+        );
 
-  //Game Over
-  if (
-    (!gameOver &&
-      G1.terminalForBigBoard(currentBigBoardState, 999) &&
-      G1.terminalForBigBoard(currentBigBoardState, "D")) ||
-    !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
-    !G1.isAnyBlockEmpty(currentBigBoardState)
-  ) {
-    if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
-    updateScore();
-    gameOverAnimantion();
-    // resignBtn.classList.add("hidden");
-    resignBtn.innerHTML = "<img src='images/plus.svg' alt='' /> New Game";
-    illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
-    illegalMoveMsg.classList.remove("hidden");
-    illegalMoveMsg.classList.remove("normal-slide-bottom");
-    illegalMoveMsg.classList.add("illegal-move-msg-animation");
-    setTimeout(() => {
-      illegalMoveMsg.classList.add("hidden");
-      illegalMoveMsg.classList.add("normal-slide-bottom");
-      illegalMoveMsg.classList.remove("illegal-move-msg-animation");
-    }, 2900);
-    let winner = "GAME DRAW";
-    if (G1.utility(currentSmallBoardState, currentBigBoardState) == 1)
-      winner = "YOU WON";
-    else if (G1.utility(currentSmallBoardState, currentBigBoardState) == -1)
-      winner = "YOU LOST";
-    winnerMsg.innerHTML = winner;
-    winnerParent.classList.remove("hidden");
-    gameOver = true;
+        if (soundOpen) SOUNDS.moveSound2();
+        GB.drawBigMarks(currentBigBoardState, "white");
+        playerX_Turn = true;
+        currentMoveForX = G1.currentLegalMoveForX(
+          currentSmallBoardState,
+          currentBigBoardState,
+          j
+        );
+        GB.highlightLegalMoves(currentMoveForX, "#8e44ad");
+        GB.drawSmallMarks(currentSmallBoardState, "white");
+        GB.drawBigMarks(currentBigBoardState, "white");
+      }
+    }
+    // Illegal Move MPM
+    else if (!gameOver) {
+      if (soundOpen) SOUNDS.illegalSound();
+      navigator.vibrate(200);
+      illegalMoveMsg.innerHTML = "Please make a move in the indicated area";
+      illegalMoveMsg.classList.remove("hidden");
+      illegalMoveMsg.classList.remove("normal-slide-bottom");
+      illegalMoveMsg.classList.add("illegal-move-msg-animation");
+      setTimeout(() => {
+        illegalMoveMsg.classList.add("hidden");
+        illegalMoveMsg.classList.add("normal-slide-bottom");
+        illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+      }, 2900);
+      illegalMove();
+    }
+    //Game Over MPM
+    if (
+      (!gameOver &&
+        G1.terminalForBigBoard(currentBigBoardState, 999) &&
+        G1.terminalForBigBoard(currentBigBoardState, "D")) ||
+      !G1.action(currentSmallBoardState, currentBigBoardState, j) ||
+      !G1.isAnyBlockEmpty(currentBigBoardState)
+    ) {
+      if (soundOpen) setTimeout(SOUNDS.gameEndSound(), 1000);
+      updateScore();
+      gameOverAnimantion();
+      resignBtn.innerHTML = "<img src='images/plus.svg' alt='' /> New Game";
+      illegalMoveMsg.innerHTML = "Click anywhere on the board to Play Again";
+      illegalMoveMsg.classList.remove("hidden");
+      illegalMoveMsg.classList.remove("normal-slide-bottom");
+      illegalMoveMsg.classList.add("illegal-move-msg-animation");
+      setTimeout(() => {
+        illegalMoveMsg.classList.add("hidden");
+        illegalMoveMsg.classList.add("normal-slide-bottom");
+        illegalMoveMsg.classList.remove("illegal-move-msg-animation");
+      }, 2900);
+      let winner = "GAME DRAW";
+      if (G1.utility(currentSmallBoardState, currentBigBoardState) == 1) {
+        winner = "X WON";
+        document.getElementById("winner-mpm").innerHTML = "Winner - PLAYER X";
+      } else if (
+        G1.utility(currentSmallBoardState, currentBigBoardState) == -1
+      ) {
+        winner = "O WON";
+        document.getElementById("winner-mpm").innerHTML = "Winner - PLAYER O";
+      } else {
+        document.getElementById("winner-mpm").innerHTML = "Result - GAME DRAW";
+      }
+      document.getElementById("winner-mpm").classList.remove("hidden");
+      winnerMsg.innerHTML = winner;
+      winnerParent.classList.remove("hidden");
+      currentMove.classList.add("hidden");
+      document.getElementById("move-text").classList.add("hidden");
+      gameOver = true;
+    }
   }
 }
 
