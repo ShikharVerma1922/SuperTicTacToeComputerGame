@@ -23,4 +23,8 @@ class Sounds {
     let clickSound = new Audio("sounds/click-sound.mp3");
     clickSound.play();
   }
+  moveSound2() {
+    let moveSound2 = new Audio("sounds/move.mp3");
+    moveSound2.play();
+  }
 }
