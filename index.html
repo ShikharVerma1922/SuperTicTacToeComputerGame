@@ -16,7 +16,7 @@
     <!-- <link rel="shortcut icon" href="#" /> -->
     <link rel="icon" type="image/x-icon" href="images/game-_1_.svg" />
   </head>
-  <body>
+<body>
     <!-- <div>
       <h1>[TIC-TAC-TOE]<sup>2</sup></h1>
     </div> -->
@@ -35,7 +35,7 @@
         </div>
         <div id="score">
           <div id="player">
-            <div><p>PLAYER (X)</p></div>
+            <p>PLAYER (<b>X</b>)</p>
             <div
               class="commonScore w3-container w3-center w3-animate-zoom"
               id="playerScore"
@@ -44,7 +44,7 @@
             </div>
           </div>
           <div id="tie">
-            <div><p>TIE</p></div>
+            <p>TIE</p>
             <div
               class="commonScore w3-container w3-center w3-animate-zoom"
               id="tieScore"
@@ -53,13 +53,17 @@
             </div>
           </div>
           <div id="computer">
-            <div><p>COMPUTER (O)</p></div>
+          <p id="computer-text">COMPUTER (<b>O</b>)</p>
             <div
               class="commonScore w3-container w3-center w3-animate-zoom"
               id="computerScore"
             >
               0
             </div>
+          </div>
+          <div id="mode-container">
+            <button id="mode-button"><img src="images/single-player.svg" width="30" alt=""></button>
+            <p id="mode-text">1P</p>
           </div>
         </div>
       </div>
@@ -83,6 +87,9 @@
             </div>
           </div>
         </div>
+        <div id="move-text" class="hidden">MOVE</div>
+        <div id="current-move" class="hidden">PLAYER X</div>
+        <div id="winner-mpm" class="hidden">Winner</div>
         <button onclick="resign()" id="resign" class="hidden">
           <img src="images/resign-flag.svg" alt="" /> Resign
         </button>
