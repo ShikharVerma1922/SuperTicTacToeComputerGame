@@ -24,11 +24,12 @@ To know more about the game [Click here](https://en.wikipedia.org/wiki/Ultimate_
 - Minimax algorithm for computer decision making
 
 ### How to Play
-Give a simple step-by-step guide to help users quickly understand how to start playing:
+Step-by-step guide to quickly understand how to start playing:
 - Select game mode (Single-player / Multiplayer).
-- If playing against the computer select difficulyt.
-- You are given symbol X.
+- If playing against the computer select difficulty.
+- You are playing with X.
 - Start playing against the computer.
+- In Multiplayer mode player X goes first.
 
 ### Minimax Algorithm
 > The AI opponent is powered by the Minimax algorithm, which ensures optimal moves are made based on the difficulty level selected. The AI evaluates future game states to maximize its chance of winning or minimize losses to a maximum depth of 5
